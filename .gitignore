@@ -1,0 +1,89 @@
+# ============================================================
+# OC-PY06 JustStreamIt
+# HTML / CSS / JavaScript
+# VS Code / JetBrains WebStorm
+# macOS / Windows
+# ============================================================
+
+# ------------------------------------------------------------
+# macOS
+# ------------------------------------------------------------
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# ------------------------------------------------------------
+# Windows
+# ------------------------------------------------------------
+
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ------------------------------------------------------------
+# Visual Studio Code
+# ------------------------------------------------------------
+
+.vscode/
+*.code-workspace
+
+# ------------------------------------------------------------
+# JetBrains / WebStorm
+# ------------------------------------------------------------
+
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ------------------------------------------------------------
+# Temporary files and logs
+# ------------------------------------------------------------
+
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+~$*
+
+# ------------------------------------------------------------
+# Local environment files
+# ------------------------------------------------------------
+
+.env
+.env.local
+.env.*.local
+
+# ------------------------------------------------------------
+# Node.js / optional development tooling
+# ------------------------------------------------------------
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+.stylelintcache
+
+# ------------------------------------------------------------
+# Test / coverage tools
+# ------------------------------------------------------------
+
+coverage/
