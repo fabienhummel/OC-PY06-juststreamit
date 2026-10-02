@@ -1,4 +1,263 @@
 /*
  * OC-PY06 — JustStreamIt
  * Feuille de style principale.
+ *
+ * Organisation par modules :
+ * - Design system
+ * - Styles généraux
+ * - Header
+ * - Sections
+ * - Meilleur film
+ * - Cartes de films
+ * - Boutons
+ * - Catégorie dynamique
  */
+
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;500;600&display=swap");
+
+
+/* =========================================================
+   DESIGN SYSTEM
+   ========================================================= */
+
+:root {
+    /* Police */
+    --font-main: "Oswald", sans-serif;
+
+    /* Couleurs */
+    --color-text: #000000;
+    --color-header: #61787f;
+    --color-button: #fa0b0b;
+    --color-white: #ffffff;
+    --color-border: #000000;
+
+    /* Boutons */
+    --button-radius: 25px;
+}
+
+
+/* =========================================================
+   STYLES GÉNÉRAUX
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-main);
+    color: var(--color-text);
+}
+
+
+/* =========================================================
+   MODULE : HEADER
+   ========================================================= */
+
+/* Mobile */
+.site-header {
+    background-color: var(--color-header);
+    border: 1px solid var(--color-border);
+
+    /* Dimensions et espacements à compléter */
+}
+
+.site-title {
+    display: none;
+    color: var(--color-white);
+    font-size: 40px;
+    font-weight: 300;
+}
+
+/* Tablette */
+@media (min-width: 768px) {
+    .site-header {
+        /* Dimensions et espacements tablette à compléter */
+    }
+
+    .site-title {
+        display: block;
+    }
+}
+
+/* Ordinateur */
+@media (min-width: 1024px) {
+    .site-header {
+        /* Dimensions et espacements ordinateur à compléter */
+    }
+}
+
+
+/* =========================================================
+   MODULE : SECTIONS
+   ========================================================= */
+
+/* Mobile */
+.section-title {
+    font-size: 32px;
+    font-weight: 600;
+
+    /* Marges à compléter */
+}
+
+/* Tablette */
+@media (min-width: 768px) {
+    .section-title {
+        font-size: 40px;
+
+        /* Marges tablette à compléter */
+    }
+}
+
+/* Ordinateur */
+@media (min-width: 1024px) {
+    .section-title {
+        font-size: 48px;
+
+        /* Marges ordinateur à compléter */
+    }
+}
+
+
+/* =========================================================
+   MODULE : MEILLEUR FILM
+   ========================================================= */
+
+/* Mobile */
+.featured-movie {
+    /* Mise en page à compléter */
+}
+
+.featured-movie-title {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.featured-movie-summary {
+    font-size: 16px;
+    font-weight: 200;
+}
+
+/* Tablette */
+@media (min-width: 768px) {
+    .featured-movie {
+        /* Mise en page tablette à compléter */
+    }
+
+    .featured-movie-title {
+        font-size: 40px;
+    }
+
+    .featured-movie-summary {
+        font-size: 24px;
+    }
+}
+
+/* Ordinateur */
+@media (min-width: 1024px) {
+    .featured-movie {
+        /* Mise en page ordinateur à compléter */
+    }
+
+    .featured-movie-title {
+        font-size: 48px;
+    }
+
+    .featured-movie-summary {
+        font-size: 28px;
+    }
+}
+
+
+/* =========================================================
+   MODULE : CARTES DE FILMS
+   ========================================================= */
+
+/* Mobile */
+.movie-grid {
+    /* Mise en page à compléter */
+}
+
+.movie-card {
+    /* Styles à compléter */
+}
+
+/* Tablette */
+@media (min-width: 768px) {
+    .movie-grid {
+        /* Mise en page tablette à compléter */
+    }
+
+    .movie-card {
+        /* Styles tablette à compléter */
+    }
+}
+
+/* Ordinateur */
+@media (min-width: 1024px) {
+    .movie-grid {
+        /* Mise en page ordinateur à compléter */
+    }
+
+    .movie-card {
+        /* Styles ordinateur à compléter */
+    }
+}
+
+
+/* =========================================================
+   MODULE : BOUTONS
+   ========================================================= */
+
+/* Mobile */
+.button {
+    padding: 2px 4px;
+    border: none;
+    border-radius: var(--button-radius);
+
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 500;
+
+    color: var(--color-white);
+    background-color: var(--color-button);
+}
+
+/* Tablette */
+@media (min-width: 768px) {
+    .button {
+        font-size: 20px;
+    }
+}
+
+/* Ordinateur */
+@media (min-width: 1024px) {
+    .button {
+        font-size: 24px;
+    }
+}
+
+
+/* =========================================================
+   MODULE : CATÉGORIE DYNAMIQUE
+   ========================================================= */
+
+/* Mobile */
+.category-select {
+    /* Styles à compléter */
+}
+
+/* Tablette */
+@media (min-width: 768px) {
+    .category-select {
+        /* Styles tablette à compléter */
+    }
+}
+
+/* Ordinateur */
+@media (min-width: 1024px) {
+    .category-select {
+        /* Styles ordinateur à compléter */
+    }
+}
