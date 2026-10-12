@@ -75,16 +75,23 @@ OC-PY06-juststreamit/
 
 | Étape | Contenu | Statut |
 | --- | --- | --- |
-| S0 | Initialisation GitHub, Confluence et Jira | En cours |
+| S0 | Initialisation GitHub, Confluence et Jira | Terminé |
 | S1 | Installation et validation de OCMovies-API | À faire |
-| S2 | Analyse des réponses de l'API | À faire |
-| S3 | Structure HTML5 | À faire |
-| S4 | Mise en forme CSS et intégration des maquettes | À faire |
+| S2 | Analyse des réponses de l'API | En cours |
+| S3 | Structure HTML5 | En cours |
+| S4 | Mise en forme CSS et intégration des maquettes | En cours |
 | S5 | Chargement des données avec JavaScript | À faire |
 | S6 | Responsive design | À faire |
 | S7 | Interface dynamique et modale | À faire |
 | S8 | Catégorie dynamique | À faire |
 | S9 | Validation, documentation et préparation de la soutenance | À faire |
+
+_Statuts des épics Jira PY06 vérifiés le 12 octobre 2026._
+
+- **S1 :** le test de l'API locale est marqué « Terminé » dans Jira (PY06-15), mais la préparation de l'environnement (PY06-14) et la documentation de son lancement (PY06-16) restent « À faire ». L'étape S1 n'est donc pas clôturée.
+- **S2 :** un test de l'endpoint de détail d'un film est documenté dans Confluence ; l'analyse de la liste, des genres et le mapping JSON complet restent à achever.
+- **S3 :** la structure HTML des sections et de la modale est présente dans `index.html` avec des données temporaires ; la validation HTML de base reste à effectuer.
+- **S4 :** le CSS et l'intégration de la maquette Figma restent en cours.
 
 ## Environnement de développement
 
