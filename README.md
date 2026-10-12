@@ -50,6 +50,12 @@ Les maquettes de référence sont disponibles sur Figma :
 
 https://www.figma.com/design/6KzVM5R2pOBX637RcVWjJ7/Maquettes-JustStreamIt?node-id=0-1&p=f
 
+## Documentation de l'interface
+
+- [UI et maquettes Figma](docs/ui-et-maquettes-figma.md) : principes d'intégration, responsive, Dev Mode et état du CSS.
+- [Analyse détaillée de la maquette Figma — Design System et dimensions](docs/analyse-detaillee-maquette-figma.md) : transcription complète des mesures, composants et caractéristiques de la maquette (source Confluence).
+- [Feuille de style actuelle](assets/css/style.css) : code CSS implémenté, voir le [commit `06a6be2`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/06a6be2).
+
 ## Structure du dépôt
 
 ```text
@@ -65,7 +71,9 @@ OC-PY06-juststreamit/
 │       ├── modal.js
 │       └── movies.js
 ├── docs/
-│   └── .gitkeep
+│   ├── .gitkeep
+│   ├── analyse-detaillee-maquette-figma.md
+│   └── ui-et-maquettes-figma.md
 ├── .gitignore
 ├── index.html
 └── README.md
@@ -81,7 +89,7 @@ OC-PY06-juststreamit/
 | S3 | Structure HTML5 | En cours |
 | S4 | Mise en forme CSS et intégration des maquettes | En cours |
 | S5 | Chargement des données avec JavaScript | À faire |
-| S6 | Responsive design | À faire |
+| S6 | Responsive design | En cours |
 | S7 | Interface dynamique et modale | À faire |
 | S8 | Catégorie dynamique | À faire |
 | S9 | Validation, documentation et préparation de la soutenance | À faire |
@@ -91,7 +99,9 @@ _Statuts des épics Jira PY06 vérifiés le 12 octobre 2026._
 - **S1 :** le test de l'API locale est marqué « Terminé » dans Jira (PY06-15), mais la préparation de l'environnement (PY06-14) et la documentation de son lancement (PY06-16) restent « À faire ». L'étape S1 n'est donc pas clôturée.
 - **S2 :** un test de l'endpoint de détail d'un film est documenté dans Confluence ; l'analyse de la liste, des genres et le mapping JSON complet restent à achever.
 - **S3 :** la structure HTML des sections et de la modale est présente dans `index.html` avec des données temporaires ; la validation HTML de base reste à effectuer.
-- **S4 :** le CSS et l'intégration de la maquette Figma restent en cours.
+- **S4 :** les neuf modules CSS (y compris la modale) sont implémentés et versionnés dans le commit `06a6be2`. Les vérifications visuelles ont été faites dans Brave. L'épic demeure « En cours » jusqu'aux validations W3C et aux contrôles multi-navigateurs.
+- **S6 :** les règles responsive mobile first et les grilles à un, deux et trois colonnes sont implémentées. Les contrôles dans Brave sont effectués ; l'étape reste « En cours » pour les tests complémentaires.
+- **S5 à S8 :** la présence de contrôles HTML et de styles CSS ne signifie pas que les interactions JavaScript sont déjà fonctionnelles.
 
 ## Environnement de développement
 
