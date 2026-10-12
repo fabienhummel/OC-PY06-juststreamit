@@ -54,6 +54,9 @@ https://www.figma.com/design/6KzVM5R2pOBX637RcVWjJ7/Maquettes-JustStreamIt?node-
 
 - [UI et maquettes Figma](docs/ui-et-maquettes-figma.md) : principes d'intégration, responsive, Dev Mode et état du CSS.
 - [Analyse détaillée de la maquette Figma — Design System et dimensions](docs/analyse-detaillee-maquette-figma.md) : transcription complète des mesures, composants et caractéristiques de la maquette (source Confluence).
+- [Installation et démarrage d'OCMovies-API](docs/installation-ocmovies-api.md) : procédure issue du dépôt officiel, endpoints et vérifications à réaliser.
+- [Architecture JavaScript et intégration API](docs/architecture-javascript-api.md) : découpage cible, flux de données et état réel des fichiers JavaScript.
+- [Tests et validation](docs/tests-et-validation.md) : bilan des contrôles réalisés, scénarios restants, W3C et navigateurs.
 - [Feuille de style actuelle](assets/css/style.css) : code CSS implémenté, voir le [commit `06a6be2`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/06a6be2).
 
 ## Structure du dépôt
@@ -73,6 +76,9 @@ OC-PY06-juststreamit/
 ├── docs/
 │   ├── .gitkeep
 │   ├── analyse-detaillee-maquette-figma.md
+│   ├── architecture-javascript-api.md
+│   ├── installation-ocmovies-api.md
+│   ├── tests-et-validation.md
 │   └── ui-et-maquettes-figma.md
 ├── .gitignore
 ├── index.html
