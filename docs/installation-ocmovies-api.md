@@ -1,8 +1,8 @@
 # Installation et démarrage d'OCMovies-API
 
-> **OC-PY06 — JustStreamIt · État documentaire au 12 octobre 2026**
+> **OC-PY06 — JustStreamIt · État documentaire mis à jour le 12 octobre 2026**
 >
-> Ce guide décrit la **procédure officielle à exécuter**, et non une installation qui aurait été fraîchement testée lors de sa rédaction. La validation du lancement de l'API est signalée dans Jira (`PY06-15`, *Terminé*) ; la préparation de l'environnement et sa documentation restent à confirmer (`PY06-14` et `PY06-16`, *À faire*).
+> Ce guide reprend la **procédure officielle d'installation et de démarrage**. Le développeur confirme avoir installé l'API en local, avec son environnement et ses dépendances ([PY06-14](https://fa8i1.atlassian.net/browse/PY06-14), **Terminé**). Le démarrage et la réponse de l'API ont été consignés précédemment ([PY06-15](https://fa8i1.atlassian.net/browse/PY06-15), **Terminé**). La rédaction de ce guide répond à [PY06-16](https://fa8i1.atlassian.net/browse/PY06-16), **Terminé**. **Aucun nouveau test de l'API locale n'a été exécuté pour mettre cette documentation à jour.**
 
 ## 1. Rôle et périmètre
 
@@ -168,10 +168,10 @@ Ne pas présenter un résultat comme réussi avant de l'avoir observé. Conserve
 
 | Ticket | Suivi |
 | --- | --- |
-| [PY06-3 — S1 OCMovies API](https://fa8i1.atlassian.net/browse/PY06-3) | À faire |
-| [PY06-14 — Préparer l'environnement](https://fa8i1.atlassian.net/browse/PY06-14) | À faire |
+| [PY06-3 — S1 OCMovies API](https://fa8i1.atlassian.net/browse/PY06-3) | Terminé |
+| [PY06-14 — Préparer l'environnement](https://fa8i1.atlassian.net/browse/PY06-14) | Terminé — installation confirmée par le développeur |
 | [PY06-15 — Lancer et vérifier l'API](https://fa8i1.atlassian.net/browse/PY06-15) | Terminé (déclaré dans Jira) |
-| [PY06-16 — Documenter l'installation](https://fa8i1.atlassian.net/browse/PY06-16) | À faire lors du relevé ; ce guide constitue une **première version documentaire**, pas une validation pratique |
+| [PY06-16 — Documenter l'installation](https://fa8i1.atlassian.net/browse/PY06-16) | Terminé — documentation publiée (distincte d'un nouveau test pratique) |
 | [PY06-4 — S2 Analyse API](https://fa8i1.atlassian.net/browse/PY06-4) | En cours |
 
 ## Sources
