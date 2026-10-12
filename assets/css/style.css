@@ -13,7 +13,7 @@
  * - Catégorie dynamique
  */
 
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600&display=swap");
 
 
 /* =========================================================
@@ -21,18 +21,28 @@
    ========================================================= */
 
 :root {
-    /* Police */
-    --font-main: "Oswald", sans-serif;
+    /* Typographie */
+    --font-main: "Oswald";
 
     /* Couleurs */
     --color-text: #000000;
-    --color-header: #61787f;
-    --color-button: #fa0b0b;
     --color-white: #ffffff;
+    --color-header: #61787f;
+    --color-primary-button: #fa0b0b;
+    --color-card-button: #2d2c2c;
+    --color-card-overlay: rgba(0, 0, 0, 0.5);
     --color-border: #000000;
 
     /* Boutons */
     --button-radius: 25px;
+    --button-padding: 2px 4px;
+
+    /* Bordures */
+    --border-thin: 1px solid var(--color-border);
+    --border-thick: 6px solid var(--color-border);
+
+    /* Compatibilité temporaire avec le module Boutons */
+    --color-button: var(--color-primary-button);
 }
 
 
@@ -40,14 +50,25 @@
    STYLES GÉNÉRAUX
    ========================================================= */
 
-* {
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: var(--font-main);
+    font-family: var(--font-main), sans-serif;
     color: var(--color-text);
+    background-color: var(--color-white);
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+button, select {
+    font-family: inherit;
 }
 
 
@@ -57,14 +78,29 @@ body {
 
 /* Mobile */
 .site-header {
-    background-color: var(--color-header);
-    border: 1px solid var(--color-border);
+    width: min(329px, calc(100% - 32px));
+    height: 137px;
+    margin-inline: auto;
 
-    /* Dimensions et espacements à compléter */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-header);
+    border: var(--border-thin);
+}
+
+.site-logo {
+    width: 182px;
+    height: 130px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .site-title {
     display: none;
+    margin: 0;
+
     color: var(--color-white);
     font-size: 40px;
     font-weight: 300;
@@ -73,7 +109,15 @@ body {
 /* Tablette */
 @media (min-width: 768px) {
     .site-header {
-        /* Dimensions et espacements tablette à compléter */
+        width: 619px;
+        justify-content: flex-start;
+        padding-left: 20px;
+        gap: 54px;
+    }
+
+    .site-logo {
+        width: 165px;
+        height: 113px;
     }
 
     .site-title {
@@ -81,12 +125,42 @@ body {
     }
 }
 
+
 /* Ordinateur */
 @media (min-width: 1024px) {
+
+    /* Ancien positionnement
     .site-header {
-        /* Dimensions et espacements ordinateur à compléter */
+        width: 837px;
+        height: 122px;
+        padding-left: 27px;
+        gap: 44px;
+    }
+    */
+
+    /* Nouveau positionnement : titre centré */
+    .site-header {
+        position: relative;
+        width: 837px;
+        height: 122px;
+        padding-left: 27px;
+    }
+
+    .site-logo {
+        width: 127px;
+        height: 94px;
+    }
+
+    .site-title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
     }
 }
+
+
 
 
 /* =========================================================
@@ -94,31 +168,90 @@ body {
    ========================================================= */
 
 /* Mobile */
+main > section {
+    width: min(329px, calc(100% - 32px));
+    margin-inline: auto;
+}
+
 .section-title {
+    margin: 0 0 5px;
+
     font-size: 32px;
     font-weight: 600;
+    line-height: normal;
+}
 
-    /* Marges à compléter */
+#best-movie {
+    margin-top: 24px;
+}
+
+#best-movie > .section-title {
+    margin-bottom: 13px;
+}
+
+main > section + section {
+    margin-top: 20px;
+}
+
+#top-movies {
+    margin-top: 25px;
 }
 
 /* Tablette */
 @media (min-width: 768px) {
+    main > section {
+        width: 619px;
+    }
+
     .section-title {
         font-size: 40px;
+        margin-bottom: 23px;
+    }
 
-        /* Marges tablette à compléter */
+    #best-movie {
+        margin-top: 23px;
+    }
+
+    #best-movie > .section-title {
+        margin-bottom: 14px;
+    }
+
+    main > section + section {
+        margin-top: 21px;
+    }
+
+    #top-movies {
+        margin-top: 33px;
     }
 }
 
 /* Ordinateur */
 @media (min-width: 1024px) {
+    main > section {
+        width: 837px;
+    }
+
     .section-title {
         font-size: 48px;
+        margin-bottom: 47px;
+    }
 
-        /* Marges ordinateur à compléter */
+    #best-movie {
+        margin-top: 31px;
+    }
+
+    #best-movie > .section-title {
+        margin-bottom: 31px;
+    }
+
+    main > section + section {
+        margin-top: 29px;
+    }
+
+    #top-movies {
+        margin-top: 29px;
     }
 }
-
 
 /* =========================================================
    MODULE : MEILLEUR FILM
@@ -126,23 +259,78 @@ body {
 
 /* Mobile */
 .featured-movie {
-    /* Mise en page à compléter */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    width: 100%;
+    min-height: 463px;
+    padding: 10px 8px 10px 11px;
+
+    background-color: var(--color-white);
+    border: var(--border-thick);
+}
+
+.featured-movie-poster {
+    width: 100%;
+    height: 241px;
+    flex: 0 0 241px;
+    overflow: hidden;
+}
+
+.featured-movie-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.featured-movie-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 6px;
+    min-width: 0;
 }
 
 .featured-movie-title {
+    margin: 0;
     font-size: 32px;
     font-weight: 600;
 }
 
 .featured-movie-summary {
+    margin: 0;
     font-size: 16px;
     font-weight: 200;
+}
+
+.featured-movie-content > .button {
+    align-self: center;
+    width: 91px;
+    min-height: 40px;
+    margin-top: auto;
 }
 
 /* Tablette */
 @media (min-width: 768px) {
     .featured-movie {
-        /* Mise en page tablette à compléter */
+        display: grid;
+        grid-template-columns: 168px minmax(0, 1fr);
+        gap: 26px;
+
+        width: 618px;
+        min-height: 271px;
+        padding: 7px 12px 7px 13px;
+        margin-inline: auto;
+    }
+
+    .featured-movie-poster {
+        width: 168px;
+        height: 246px;
+    }
+
+    .featured-movie-content {
+        padding-top: 16px;
     }
 
     .featured-movie-title {
@@ -152,12 +340,33 @@ body {
     .featured-movie-summary {
         font-size: 24px;
     }
+
+    .featured-movie-content > .button {
+        align-self: flex-end;
+        width: 123px;
+        min-height: 49px;
+        margin-right: 16px;
+    }
 }
 
 /* Ordinateur */
 @media (min-width: 1024px) {
     .featured-movie {
-        /* Mise en page ordinateur à compléter */
+        grid-template-columns: 227px minmax(0, 1fr);
+        gap: 36px;
+
+        width: 835px;
+        min-height: 369px;
+        padding: 12px 44px 11px 19px;
+    }
+
+    .featured-movie-poster {
+        width: 227px;
+        height: 334px;
+    }
+
+    .featured-movie-content {
+        padding-top: 10px;
     }
 
     .featured-movie-title {
@@ -166,6 +375,12 @@ body {
 
     .featured-movie-summary {
         font-size: 28px;
+    }
+
+    .featured-movie-content > .button {
+        width: 166px;
+        min-height: 68px;
+        margin-right: 0;
     }
 }
 
@@ -176,32 +391,91 @@ body {
 
 /* Mobile */
 .movie-grid {
-    /* Mise en page à compléter */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 29px;
 }
 
 .movie-card {
-    /* Styles à compléter */
+    width: 100%;
+    min-width: 0;
+}
+
+.movie-card-poster {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.movie-card-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.movie-card-overlay {
+    position: absolute;
+    top: 13.5%;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 40%;
+    padding: 6.5% 5% 3.5% 8%;
+
+    background-color: var(--color-card-overlay);
+}
+
+.movie-card-title {
+    margin: 0;
+
+    color: var(--color-white);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: normal;
+    overflow-wrap: anywhere;
+}
+
+.movie-card-overlay .button {
+    align-self: flex-end;
+    flex-shrink: 0;
+
+    width: 106px;
+    min-height: 32px;
+
+    font-size: 14px;
+    background-color: var(--color-card-button);
 }
 
 /* Tablette */
 @media (min-width: 768px) {
     .movie-grid {
-        /* Mise en page tablette à compléter */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 34px;
+        row-gap: 34px;
     }
 
-    .movie-card {
-        /* Styles tablette à compléter */
+    .movie-card-overlay .button {
+        width: 95px;
+        min-height: 29px;
     }
 }
 
 /* Ordinateur */
 @media (min-width: 1024px) {
     .movie-grid {
-        /* Mise en page ordinateur à compléter */
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        column-gap: 40px;
+        row-gap: 44px;
     }
 
-    .movie-card {
-        /* Styles ordinateur à compléter */
+    .movie-card-overlay .button {
+        width: 81px;
+        min-height: 25px;
     }
 }
 
@@ -210,18 +484,39 @@ body {
    MODULE : BOUTONS
    ========================================================= */
 
-/* Mobile */
-.button {
-    padding: 2px 4px;
+/* Styles communs */
+.button,
+.toggle-movies-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: var(--button-padding);
     border: none;
     border-radius: var(--button-radius);
 
-    font-family: var(--font-main);
-    font-size: 14px;
+    font-family: var(--font-main), sans-serif;
     font-weight: 500;
+    line-height: normal;
 
     color: var(--color-white);
-    background-color: var(--color-button);
+    background-color: var(--color-primary-button);
+
+    cursor: pointer;
+}
+
+/* Mobile */
+.button {
+    font-size: 14px;
+}
+
+.toggle-movies-button {
+    display: flex;
+    width: min(214px, 100%);
+    height: 36px;
+    margin: 27px auto 0;
+
+    font-size: 20px;
 }
 
 /* Tablette */
@@ -229,12 +524,20 @@ body {
     .button {
         font-size: 20px;
     }
+
+    .toggle-movies-button {
+        margin-top: 21px;
+    }
 }
 
 /* Ordinateur */
 @media (min-width: 1024px) {
     .button {
         font-size: 24px;
+    }
+
+    .toggle-movies-button {
+        display: none;
     }
 }
 
@@ -244,20 +547,316 @@ body {
    ========================================================= */
 
 /* Mobile */
-.category-select {
-    /* Styles à compléter */
+#other-category > .section-title {
+    margin: 0 0 16px;
 }
+
+.category-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.category-selector label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.category-select {
+    width: min(285px, 100%);
+    height: 68px;
+    padding: 0 13px;
+
+    font-family: var(--font-main), sans-serif;
+    font-size: clamp(20px, 5vw, 24px);
+    font-weight: 600;
+    line-height: normal;
+
+    color: var(--color-text);
+    background-color: var(--color-white);
+
+    border: var(--border-thin);
+    border-radius: 0;
+
+    cursor: pointer;
+}
+
+.category-select:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
+}
+
 
 /* Tablette */
 @media (min-width: 768px) {
-    .category-select {
-        /* Styles tablette à compléter */
+    #other-category {
+        display: grid;
+        grid-template-columns: max-content minmax(0, 1fr);
+        column-gap: 24px;
+        align-items: center;
+        justify-content: start;
     }
+
+    #other-category > .section-title {
+        margin: 0;
+    }
+
+    .category-selector {
+        justify-content: flex-start;
+        margin-bottom: 0;
+    }
+
+    .category-select {
+        width: 404px;
+        height: 78px;
+        padding-left: 19px;
+    }
+
+    #other-category > .movie-grid {
+        grid-column: 1 / -1;
+        margin-top: 23px;
+    }
+
+    #other-category > .toggle-movies-button {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* Ordinateur */
+@media (min-width: 1024px) {
+    #other-category > .movie-grid {
+        margin-top: 47px;
+    }
+}
+
+
+/* =========================================================
+   MODULE : FENÊTRE MODALE
+   ========================================================= */
+
+/* Mobile et tablette */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 16px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal.is-open {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        "info"
+        "summary"
+        "poster"
+        "cast";
+    row-gap: 24px;
+
+    width: min(506px, 100%);
+    padding: 21px clamp(16px, 8vw, 40px) 36px;
+
+    background-color: var(--color-white);
+    border: var(--border-thick);
+}
+
+/* Informations du film */
+.modal-movie-info {
+    grid-area: info;
+    min-width: 0;
+    padding-right: 30px;
+}
+
+.modal-movie-title {
+    margin: 0 0 8px;
+
+    font-size: clamp(32px, 10.5vw, 48px);
+    font-weight: 600;
+    line-height: normal;
+}
+
+.modal-movie-info > p {
+    margin: 0 0 4px;
+
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Réalisateur */
+.modal-movie-director {
+    margin-top: 24px;
+}
+
+.modal-movie-director p {
+    margin: 0;
+    font-size: 24px;
+}
+
+.modal-movie-director p:first-child {
+    font-weight: 400;
+}
+
+.modal-movie-director p:last-child {
+    font-weight: 300;
+}
+
+/* Résumé */
+.modal-movie-summary {
+    grid-area: summary;
+    margin: 0;
+
+    font-size: 24px;
+    font-weight: 300;
+}
+
+/* Affiche */
+.modal-movie-poster {
+    grid-area: poster;
+    min-width: 0;
+}
+
+.modal-movie-poster img {
+    width: 100%;
+    height: auto;
+}
+
+/* Distribution */
+.modal-movie-cast {
+    grid-area: cast;
+}
+
+.modal-movie-cast p {
+    margin: 0;
+    font-size: 20px;
+}
+
+.modal-movie-cast p:first-child {
+    font-weight: 400;
+}
+
+.modal-movie-cast p:last-child {
+    font-weight: 300;
+}
+
+/* Fermeture mobile et tablette */
+.modal-close-icon {
+    position: absolute;
+    top: 35px;
+    right: 16px;
+
+    padding: 0;
+    border: none;
+
+    font-family: var(--font-main), sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+
+    color: var(--color-text);
+    background: none;
+    cursor: pointer;
+}
+
+.modal-close-button {
+    display: none;
+}
+
+/* Option : afficher le bouton Fermer sur mobile et tablette.
+   Commenter ce bloc pour masquer le bouton. */
+
+/*
+@media (max-width: 1023px) {
+    .modal-close-button {
+        display: inline-flex;
+        justify-self: center;
+
+        width: min(214px, 100%);
+        min-height: 36px;
+        font-size: 20px;
+    }
+}
+*/
+
+
+
+.modal-close-icon:focus-visible,
+.modal-close-button:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
 }
 
 /* Ordinateur */
 @media (min-width: 1024px) {
-    .category-select {
-        /* Styles ordinateur à compléter */
+    .modal-content {
+        width: min(778px, 100%);
+        /*min-height: 939px;*/
+
+        grid-template-columns: minmax(0, 1fr) 227px;
+        grid-template-areas:
+            "info poster"
+            "summary summary"
+            "cast cast"
+            "close close";
+        /*grid-template-rows: auto auto 1fr auto;*/
+        grid-template-rows: auto auto auto auto;
+
+        column-gap: 48px;
+        row-gap: 24px;
+        padding: 21px 28px 36px 40px;
+    }
+
+    .modal-movie-info {
+        padding-right: 0;
+    }
+
+    .modal-movie-title {
+        font-size: 48px;
+    }
+
+    .modal-movie-poster {
+        margin-top: 13px;
+    }
+
+    .modal-movie-poster img {
+        width: 227px;
+        height: 334px;
+        object-fit: cover;
+    }
+
+    .modal-movie-cast {
+        align-self: start;
+    }
+
+    .modal-close-icon {
+        display: none;
+    }
+
+    .modal-close-button {
+        display: inline-flex;
+        grid-area: close;
+        justify-self: center;
+
+        width: 214px;
+        height: 36px;
+        font-size: 20px;
     }
 }
