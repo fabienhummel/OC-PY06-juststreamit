@@ -90,7 +90,7 @@ OC-PY06-juststreamit/
 | Étape | Contenu | Statut |
 | --- | --- | --- |
 | S0 | Initialisation GitHub, Confluence et Jira | Terminé |
-| S1 | Installation et validation de OCMovies-API | À faire |
+| S1 | Installation et validation de OCMovies-API | Terminé |
 | S2 | Analyse des réponses de l'API | En cours |
 | S3 | Structure HTML5 | En cours |
 | S4 | Mise en forme CSS et intégration des maquettes | En cours |
@@ -102,7 +102,7 @@ OC-PY06-juststreamit/
 
 _Statuts des épics Jira PY06 vérifiés le 12 octobre 2026._
 
-- **S1 :** le test de l'API locale est marqué « Terminé » dans Jira (PY06-15), mais la préparation de l'environnement (PY06-14) et la documentation de son lancement (PY06-16) restent « À faire ». L'étape S1 n'est donc pas clôturée.
+- **S1 :** étape « Terminé » dans Jira ([PY06-3](https://fa8i1.atlassian.net/browse/PY06-3)). L'installation locale et ses dépendances ont été confirmées par le développeur ([PY06-14](https://fa8i1.atlassian.net/browse/PY06-14)) ; le lancement et le test de l'endpoint de détail d'Avatar ont été consignés auparavant ([PY06-15](https://fa8i1.atlassian.net/browse/PY06-15)) ; la procédure est documentée dans [le guide OCMovies-API](docs/installation-ocmovies-api.md) ([PY06-16](https://fa8i1.atlassian.net/browse/PY06-16)). Les autres endpoints, leur tri, pagination et mapping JSON restent à approfondir en S2.
 - **S2 :** un test de l'endpoint de détail d'un film est documenté dans Confluence ; l'analyse de la liste, des genres et le mapping JSON complet restent à achever.
 - **S3 :** la structure HTML des sections et de la modale est présente dans `index.html` avec des données temporaires ; la validation HTML de base reste à effectuer.
 - **S4 :** les neuf modules CSS (y compris la modale) sont implémentés et versionnés dans le commit `06a6be2`. Les vérifications visuelles ont été faites dans Brave. L'épic demeure « En cours » jusqu'aux validations W3C et aux contrôles multi-navigateurs.
