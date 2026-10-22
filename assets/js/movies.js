@@ -82,6 +82,20 @@ function displayMovieCards(sectionId, films) {
     // Récupère les cartes HTML déjà présentes dans cette section.
     const cards = section.querySelectorAll(".movie-card");
 
+
+    // Indique si la section possède des films supplémentaires
+    // à afficher selon la largeur de l'écran.
+    section.classList.toggle("has-extra-mobile-movies", films.length > 2);
+    section.classList.toggle("has-extra-tablet-movies", films.length > 4);
+
+
+    // Affiche uniquement les cartes correspondant aux films reçus.
+    // Masque les cartes supplémentaires si l'API renvoie moins de six films.
+    cards.forEach((card, index) => {
+        card.style.display = index < films.length ? "" : "none";
+    });
+
+
     // Parcourt les films et associe chacun à une carte HTML.
     films.slice(0, cards.length).forEach((film, index) => {
         // Sélectionne la carte correspondant au film.
@@ -172,4 +186,42 @@ function initializeMovieToggles() {
             button.setAttribute("aria-expanded", String(isExpanded));
         });
     });
+}
+
+
+/**
+ * Initialise la détection des changements de genre.
+ *
+ * Écoute l'événement "change" du menu déroulant
+ * pour récupérer le genre sélectionné par l'utilisateur.
+ *
+ * @returns {void} Cette fonction ne renvoie aucune valeur.
+ */
+function initializeGenreSelector() {
+    // Sélectionne le menu déroulant de la catégorie "Autres".
+    const select = document.querySelector("#genre-select");
+
+    // Réagit lorsque l'utilisateur sélectionne un autre genre.
+
+    // Réagit lorsque l'utilisateur sélectionne un autre genre.
+    select.addEventListener("change", async (event) => {
+        // Récupère le genre sélectionné.
+        const genre = event.target.value;
+
+        try {
+            // Récupère les six films les mieux notés de ce genre.
+            const data = await getMoviesByGenre(genre);
+
+            // Actualise les cartes de la catégorie "Autres".
+            displayMovieCards("#other-category", data.results);
+
+        } catch (error) {
+            // Signale une erreur éventuelle de récupération des films.
+            console.error(
+                `Impossible de charger le genre ${genre} :`,
+                error.message
+            );
+        }
+    });
+
 }

@@ -658,6 +658,27 @@ main > section + section {
 
 
 /* =========================================================
+   VISIBILITÉ DU BOUTON — CATÉGORIE DYNAMIQUE
+   ========================================================= */
+
+/* Mobile : masque le bouton si la catégorie contient
+   deux films ou moins. */
+@media (max-width: 767px) {
+    #other-category:not(.has-extra-mobile-movies) > .toggle-movies-button {
+        display: none;
+    }
+}
+
+/* Tablette : masque le bouton si la catégorie contient
+   quatre films ou moins. */
+@media (min-width: 768px) and (max-width: 1023px) {
+    #other-category:not(.has-extra-tablet-movies) > .toggle-movies-button {
+        display: none;
+    }
+}
+
+
+/* =========================================================
    MODULE : FENÊTRE MODALE
    ========================================================= */
 

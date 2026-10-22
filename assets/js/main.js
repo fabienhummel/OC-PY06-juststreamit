@@ -30,6 +30,11 @@ async function initializeApp() {
     initializeMovieModalTriggers();
 
 
+    // Initialise la détection des changements de genre
+    // dans le menu déroulant de la catégorie "Autres".
+    initializeGenreSelector();
+
+
     try {
         // Récupère les 7 films les mieux notés depuis OCMovies-API.
         const data = await getTopMovies();
