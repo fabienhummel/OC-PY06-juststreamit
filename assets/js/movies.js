@@ -2,3 +2,132 @@
  * OC-PY06 — JustStreamIt
  * Affichage et manipulation des films dans l'interface.
  */
+
+
+/**
+ * Définit l'affiche d'un film avec une image de remplacement.
+ *
+ * Si l'image distante est absente ou inaccessible, une image
+ * locale est utilisée pour garantir un affichage correct.
+ *
+ * @param {HTMLImageElement} poster - Élément HTML img à modifier.
+ * @param {Object} film - Objet contenant les informations du film.
+ * @returns {void} Cette fonction ne renvoie aucune valeur.
+ */
+function setMoviePoster(poster, film) {
+    // Chemin de l'image locale utilisée en cas d'échec.
+    const fallbackImage = "assets/images/movie_poster.png";
+
+    // Détecte une erreur lors du chargement de l'affiche.
+    poster.onerror = () => {
+        // Évite une boucle si l'image locale est également absente.
+        poster.onerror = null;
+
+        // Remplace l'image défaillante par l'image locale.
+        poster.src = fallbackImage;
+    };
+
+    // Définit un texte alternatif pour l'accessibilité.
+    poster.alt = `Affiche du film ${film.title}`;
+
+    // Charge l'affiche de l'API ou utilise l'image locale.
+    poster.src = film.image_url || fallbackImage;
+}
+
+
+
+/**
+ * Affiche les informations du meilleur film dans la page HTML.
+ *
+ * @param {Object} film - Objet contenant les détails du film.
+ * @returns {void} Cette fonction ne renvoie aucune valeur.
+ */
+function displayBestMovie(film) {
+    // Sélectionne la section HTML dédiée au meilleur film.
+    const section = document.querySelector("#best-movie");
+
+    // Récupère les éléments HTML à mettre à jour.
+    const title = section.querySelector(".featured-movie-title");
+    const summary = section.querySelector(".featured-movie-summary");
+    const poster = section.querySelector(".featured-movie-poster img");
+
+    // Remplace les contenus temporaires par les données de l'API.
+    title.textContent = film.title;
+    summary.textContent = film.description || "Résumé indisponible.";
+
+    // Affiche le poster du film et gère automatiquement les images indisponibles.
+    setMoviePoster(poster, film);
+
+}
+
+
+/**
+ * Affiche les films dans une section de l'interface.
+ *
+ * @param {string} sectionId - Sélecteur CSS de la section HTML.
+ * @param {Array<Object>} films - Tableau des films à afficher.
+ * @returns {void} Cette fonction ne renvoie aucune valeur.
+ */
+function displayMovieCards(sectionId, films) {
+    // Sélectionne la section HTML concernée.
+    const section = document.querySelector(sectionId);
+
+    // Récupère les cartes HTML déjà présentes dans cette section.
+    const cards = section.querySelectorAll(".movie-card");
+
+    // Parcourt les films et associe chacun à une carte HTML.
+    films.slice(0, cards.length).forEach((film, index) => {
+        // Sélectionne la carte correspondant au film.
+        const card = cards[index];
+
+        // Récupère l'élément contenant le titre.
+        const title = card.querySelector(".movie-card-title");
+
+        // Remplace le titre temporaire par celui fourni par l'API.
+        title.textContent = film.title;
+
+
+        // Sélectionne l'image de la carte du film.
+        const poster = card.querySelector(".movie-card-poster img");
+
+
+        // Affiche le poster et gère les erreurs de chargement.
+        setMoviePoster(poster, film);
+
+
+        // Définit un texte alternatif pour l'accessibilité.
+        poster.alt = `Affiche du film ${film.title}`;
+
+
+        // Mémorise l'identifiant du film pour la future modale.
+        card.dataset.movieId = film.id;
+    });
+}
+
+
+/**
+ * Ajoute les genres disponibles au menu déroulant de l'interface.
+ *
+ * @param {Array<Object>} genres - Tableau des genres renvoyés par l'API.
+ * @returns {void} Cette fonction ne renvoie aucune valeur.
+ */
+function displayGenres(genres) {
+    // Sélectionne le menu déroulant de la catégorie dynamique.
+    const select = document.querySelector("#genre-select");
+
+    // Parcourt la liste des genres fournie par l'API.
+    genres.forEach((genre) => {
+        // Crée un nouvel élément HTML <option>.
+        const option = document.createElement("option");
+
+        // Définit la valeur utilisée lors de la sélection.
+        option.value = genre.name;
+
+        // Définit le nom du genre visible dans le menu.
+        option.textContent = genre.name;
+
+        // Ajoute l'option au menu déroulant.
+        select.appendChild(option);
+    });
+}
+
