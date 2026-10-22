@@ -127,6 +127,8 @@ function initializeModalCloseButtons() {
 function initializeMovieModalTriggers() {
     // Sélectionne le conteneur principal de l'application.
     const main = document.querySelector("main");
+    // Identifie la dernière demande de détails d'un film.
+    let latestRequestId = 0;
 
     // Écoute les clics sur les éléments contenus dans main.
     main.addEventListener("click", async(event) => {
@@ -151,11 +153,20 @@ function initializeMovieModalTriggers() {
 
         // Récupère l'identifiant du film sélectionné.
         const movieId = movieElement.dataset.movieId;
+        // Attribue un identifiant unique à cette demande.
+        const requestId = ++latestRequestId;
 
 
         try {
             // Récupère les détails du film sélectionné depuis l'API.
             const film = await getMovieDetails(movieId);
+
+            // Ignore la réponse si un autre film a été sélectionné
+            // depuis le lancement de cette requête.
+            if (requestId !== latestRequestId) {
+                return;
+            }
+
 
             // Remplace les informations temporaires de la modale.
             displayMovieDetails(film);
@@ -173,11 +184,28 @@ function initializeMovieModalTriggers() {
             openMovieModal();
 
         } catch (error) {
+
+            // Ignore l'erreur si un autre film a été sélectionné
+            // depuis le lancement de cette requête.
+            if (requestId !== latestRequestId) {
+                return;
+            }
+
             // Signale une erreur éventuelle de récupération des données.
             console.error(
                 `Impossible de charger le film ${movieId} :`,
                 error.message
             );
+
+            // Sélectionne la fenêtre de dialogue commune aux erreurs API.
+            const apiErrorDialog = document.querySelector("#api-error-dialog");
+
+            // Signale l'échec du chargement à l'utilisateur.
+            // Évite de rouvrir une fenêtre déjà affichée.
+            if (!apiErrorDialog.open) {
+                apiErrorDialog.showModal();
+            }
+
         }
 
     });

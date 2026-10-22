@@ -35,6 +35,12 @@ async function initializeApp() {
     initializeGenreSelector();
 
 
+    // Masque les cartes temporaires de la catégorie "Autres".
+    // Elles seront affichées après la sélection d'un genre.
+    displayMovieCards("#other-category", []);
+
+
+
     try {
         // Récupère les 7 films les mieux notés depuis OCMovies-API.
         const data = await getTopMovies();
@@ -85,6 +91,16 @@ async function initializeApp() {
 
         // Remplit le menu déroulant avec les genres récupérés.
         displayGenres(genresData.results);
+
+
+        // Sélectionne automatiquement le genre Biography au démarrage.
+        const genreSelect = document.querySelector("#genre-select");
+        genreSelect.value = "Biography";
+
+        // Déclenche le chargement des films du genre sélectionné.
+        // Réutilise l'écouteur "change" déjà présent dans movies.js.
+        genreSelect.dispatchEvent(new Event("change"));
+
 
 
 

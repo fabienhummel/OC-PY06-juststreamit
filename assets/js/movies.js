@@ -189,11 +189,12 @@ function initializeMovieToggles() {
 }
 
 
+
 /**
  * Initialise la détection des changements de genre.
  *
- * Écoute l'événement "change" du menu déroulant
- * pour récupérer le genre sélectionné par l'utilisateur.
+ * Charge les films du genre sélectionné et ignore les réponses
+ * obsolètes lorsque plusieurs requêtes sont en cours.
  *
  * @returns {void} Cette fonction ne renvoie aucune valeur.
  */
@@ -201,25 +202,60 @@ function initializeGenreSelector() {
     // Sélectionne le menu déroulant de la catégorie "Autres".
     const select = document.querySelector("#genre-select");
 
+
+
+
+    // Sélectionne la fenêtre de dialogue commune aux erreurs API.
+    const apiErrorDialog = document.querySelector("#api-error-dialog");
+
+
+
+
+    // Identifie la requête la plus récente.
+    let latestRequestId = 0;
+
     // Réagit lorsque l'utilisateur sélectionne un autre genre.
     select.addEventListener("change", async (event) => {
         // Récupère le genre sélectionné.
         const genre = event.target.value;
 
+        // Attribue un nouvel identifiant à cette requête.
+        const requestId = ++latestRequestId;
+
+
         try {
-            // Récupère les six films les mieux notés de ce genre.
+            // Récupère les films les mieux notés de ce genre.
             const data = await getMoviesByGenre(genre);
+
+            // Ignore une réponse devenue obsolète.
+            if (requestId !== latestRequestId) {
+                return;
+            }
 
             // Actualise les cartes de la catégorie "Autres".
             displayMovieCards("#other-category", data.results);
 
         } catch (error) {
-            // Signale une erreur éventuelle de récupération des films.
-            console.error(
-                `Impossible de charger le genre ${genre} :`,
-                error.message
-            );
+            // Signale uniquement l'erreur de la requête actuelle.
+            if (requestId === latestRequestId) {
+                console.error(
+                    `Impossible de charger le genre ${genre} :`,
+                    error.message
+                );
+
+
+                // Masque les films de la catégorie précédente.
+                // Évite d'afficher des résultats qui ne correspondent
+                // plus au genre sélectionné.
+                displayMovieCards("#other-category", []);
+
+
+
+                // Affiche la modale commune en cas d'échec de la requête.
+                apiErrorDialog.showModal();
+
+
+            }
         }
     });
-
 }

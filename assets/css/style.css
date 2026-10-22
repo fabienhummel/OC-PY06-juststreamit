@@ -900,3 +900,54 @@ main > section + section {
         font-size: 20px;
     }
 }
+
+
+/* =========================================================
+   MODULE : MODALE D'ERREUR
+   ========================================================= */
+
+/* Fenêtre affichée en cas d'échec d'une requête API. */
+.api-error-dialog {
+    width: min(440px, calc(100% - 32px));
+    max-height: calc(100vh - 32px);
+    padding: 24px;
+    overflow-y: auto;
+
+    border: var(--border-thick);
+    background-color: var(--color-white);
+    color: var(--color-text);
+
+    font-family: var(--font-main), sans-serif;
+    text-align: center;
+}
+
+/* Assombrit la page derrière la fenêtre. */
+.api-error-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Titre de la fenêtre d'erreur. */
+.api-error-dialog h2 {
+    margin: 0 0 20px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+/* Description de l'erreur. */
+.api-error-dialog p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+/* Bouton de fermeture. */
+.api-error-dialog form {
+    margin-top: 24px;
+}
+
+.api-error-dialog .button {
+    width: 160px;
+    min-height: 38px;
+    font-size: 20px;
+}

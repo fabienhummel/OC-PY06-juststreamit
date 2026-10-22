@@ -339,6 +339,11 @@
                 </select>
             </div>
 
+
+
+
+
+
             <div class="movie-grid">
                 <article class="movie-card">
                     <div class="movie-card-poster">
@@ -429,6 +434,25 @@
                 Voir plus
             </button>
         </section>
+
+        <!-- Modale affichée lorsqu'une requête API échoue. -->
+        <dialog
+                id="api-error-dialog"
+                class="api-error-dialog"
+                aria-labelledby="api-error-title"
+                aria-describedby="api-error-description"
+        >
+            <h2 id="api-error-title">Chargement impossible</h2>
+
+            <p id="api-error-description">
+                Impossible de récupérer les informations demandées.
+                Vérifiez votre connexion ou réessayez dans quelques instants.
+            </p>
+
+            <form method="dialog">
+                <button class="button" type="submit">Fermer</button>
+            </form>
+        </dialog>
 
         <div class="modal" id="movie-modal" role="dialog" aria-modal="true" aria-labelledby="movie-modal-title">
             <div class="modal-content">
