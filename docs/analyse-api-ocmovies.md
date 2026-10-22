@@ -1,5 +1,7 @@
 # S2 — Analyse des réponses de l'API OCMovies
 
+> **Note de suivi (22 octobre 2026) :** ce document conserve l'analyse exploratoire de S2. Les éléments « à développer », les genres fixes « à choisir » et les responsabilités « envisagées » reflètent **l'état de l'époque**, et non le code actuel. Les catégories Action et Comedy, le genre Biography par défaut, les modales et les fonctions dynamiques ont depuis été implémentés. Consulter [l'architecture livrée](architecture-javascript-api.md) et [les tests](tests-et-validation.md) pour l'état actuel.
+
 > OC-PY06 — JustStreamIt · Tests réalisés **sur l'API locale par le développeur le 22 octobre 2026**, puis mapping confronté au `index.html` du dépôt GitHub.
 >
 > Périmètre : [PY06-17](https://fa8i1.atlassian.net/browse/PY06-17), [PY06-18](https://fa8i1.atlassian.net/browse/PY06-18), [PY06-19](https://fa8i1.atlassian.net/browse/PY06-19).

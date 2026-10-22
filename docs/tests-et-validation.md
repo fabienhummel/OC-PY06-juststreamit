@@ -1,8 +1,8 @@
 # Tests et validation — JustStreamIt
 
-> **OC-PY06 · État du suivi au 12 octobre 2026**
+> **OC-PY06 · Bilan des contrôles et suivi Jira au 22 octobre 2026**
 >
-> Ce document distingue **vérifié**, **implémenté mais non encore validé**, **à développer** et **à tester**. Il ne constitue ni un rapport de validation W3C, ni un procès-verbal de tests multi-navigateurs.
+> Ce document récapitule les validations W3C et les tests manuels effectués. Il ne constitue pas une campagne automatisée ni un audit exhaustif de compatibilité sur tous les navigateurs.
 
 ## 1. Références et périmètre
 
@@ -375,16 +375,16 @@ Les statuts suivants ont été vérifiés directement dans Jira.
 
 | Ticket | Étape | Statut |
 | --- | --- | --- |
-| [PY06-5](https://fa8i1.atlassian.net/browse/PY06-5) | S3 — Structure HTML | En cours |
+| [PY06-5](https://fa8i1.atlassian.net/browse/PY06-5) | S3 — Structure HTML | Terminé |
 | [PY06-6](https://fa8i1.atlassian.net/browse/PY06-6) | S4 — CSS et Figma | Terminé |
-| [PY06-8](https://fa8i1.atlassian.net/browse/PY06-8) | S6 — Responsive | En cours |
+| [PY06-8](https://fa8i1.atlassian.net/browse/PY06-8) | S6 — Responsive | Terminé |
 | [PY06-11](https://fa8i1.atlassian.net/browse/PY06-11) | S9 — Qualité et soutenance | En cours |
 
 ### Tickets de réalisation et de validation
 
 | Ticket | Objet | Statut |
 | --- | --- | --- |
-| [PY06-22](https://fa8i1.atlassian.net/browse/PY06-22) | Structure de la modale et validation HTML | En cours |
+| [PY06-22](https://fa8i1.atlassian.net/browse/PY06-22) | Structure de la modale et validation HTML | Terminé |
 | [PY06-23](https://fa8i1.atlassian.net/browse/PY06-23) | Styles Figma et CSS global | Terminé |
 | [PY06-24](https://fa8i1.atlassian.net/browse/PY06-24) | Cartes, sections et modale CSS | Terminé |
 | [PY06-27](https://fa8i1.atlassian.net/browse/PY06-27) | Implémentation responsive mobile first | Terminé |
@@ -394,8 +394,7 @@ Les statuts suivants ont été vérifiés directement dans Jira.
 
 ### Points administratifs à finaliser
 
-- Vérifier la clôture du ticket PY06-22.
-- Examiner la clôture des épics S3 et S6.
+- PY06-22 et les épics S3 et S6 ont été clôturés dans Jira le 22 octobre 2026.
 - Terminer PY06-34 après les livrables de documentation.
 - Clôturer l'épic S9 après les vérifications finales.
 

@@ -40,11 +40,11 @@ L'analyse exhaustive des propriétés de la maquette, des dimensions, marges, pa
 
 Cette analyse sert de référence pour le CSS afin d'éviter des appels MCP Figma répétés.
 
-## Implémentation vérifiée au 12 octobre 2026
+## Implémentation et validations au 22 octobre 2026
 
-La feuille `assets/css/style.css` a été versionnée dans le [commit `06a6be2`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/06a6be2) et organisée en neuf modules : Design System, styles généraux, header, sections, meilleur film, cartes de films, boutons, catégorie dynamique et fenêtre modale.
+La première intégration CSS a été versionnée dans le [commit historique `06a6be2`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/06a6be2). La feuille a ensuite été enrichie pour les interactions responsive et la nouvelle modale d'erreur.
 
-Les contrôles manuels réalisés dans Brave couvrent les trois formats de référence (mobile, tablette et ordinateur). La validation automatique W3C et les tests complets dans d'autres navigateurs restent à effectuer : **ce ne sont pas des validations acquises**.
+Les contrôles manuels dans Brave couvrent les trois formats de référence. Le CSS a été validé au W3C (**0 erreur et 7 avertissements informatifs**), et des parcours fonctionnels ont été confirmés dans Safari et Chrome. Firefox et les tests automatisés ne sont pas déclarés réalisés ; voir [Tests et validation](tests-et-validation.md).
 
 ### Différences documentées entre les relevés Figma et le CSS
 
@@ -53,6 +53,6 @@ Les contrôles manuels réalisés dans Brave couvrent les trois formats de réf�
 - **Sélecteur « Autres » :** sous le titre et centré sur mobile ; sur la même ligne que le titre sur tablette et ordinateur. La taille du texte mobile est adaptée avec `clamp(20px, 5vw, 24px)` pour que « Choisir une catégorie » ne soit pas tronqué, alors que Figma représente un libellé plus court en 36 px.
 - **Meilleur film et modale :** les hauteurs peuvent s'adapter à un contenu dynamique plutôt que d'être verrouillées à la hauteur de l'artboard.
 - **Modale :** le bouton « Fermer » est visible sur ordinateur. Sur mobile et tablette, la croix est affichée et une media query **commentée** permet d'activer également le bouton « Fermer » si souhaité.
-- **Fonctions dynamiques :** la modale et « Voir plus / Voir moins » ont leur style CSS, mais leurs interactions JavaScript restent à implémenter. Les cartes contiennent encore des données temporaires.
+- **Fonctions dynamiques :** la modale de film, « Voir plus / Voir moins » et la catégorie « Autres » sont opérationnels avec les données API. Une modale générique d'erreur `<dialog>` a également été ajoutée en S9. Les textes provisoires du HTML sont remplacés pendant le chargement.
 
 Le document détaillé conserve les **mesures d'origine**, même lorsqu'une adaptation CSS a été retenue.

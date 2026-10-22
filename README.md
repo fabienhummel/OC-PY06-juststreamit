@@ -12,15 +12,15 @@ L'objectif est de développer l'interface front-end de **JustStreamIt**, une app
 - Développer une interface responsive pour mobile, tablette et ordinateur.
 - Produire un code HTML sémantique et conforme aux bonnes pratiques du Web.
 
-## Fonctionnalités attendues
+## Fonctionnalités implémentées
 
-L'interface doit notamment proposer :
+L'interface propose :
 
 - un film mis en avant : **Meilleur film** ;
 - une section **Films les mieux notés** ;
 - deux catégories de films fixes ;
 - une catégorie dynamique choisie par l'utilisateur ;
-- six films par section ;
+- jusqu'à six films par section, selon les résultats de l'API ;
 - un comportement responsive avec **Voir plus / Voir moins** ;
 - une fenêtre modale affichant les informations détaillées d'un film.
 
@@ -34,7 +34,7 @@ Le projet est réalisé avec :
 - l'API native **Fetch** ;
 - **OCMovies-API** exécutée localement.
 
-Le projet n'utilise pas de framework JavaScript. Le code final devra notamment être responsive, ne générer aucune erreur JavaScript dans la console et respecter les standards W3C.
+Le projet n'utilise pas de framework JavaScript. Le site a fait l'objet de contrôles manuels de fonctionnement, de responsive et de validation W3C, dont les résultats et limites sont documentés.
 
 ## API OCMovies
 
@@ -54,10 +54,11 @@ https://www.figma.com/design/6KzVM5R2pOBX637RcVWjJ7/Maquettes-JustStreamIt?node-
 
 - [UI et maquettes Figma](docs/ui-et-maquettes-figma.md) : principes d'intégration, responsive, Dev Mode et état du CSS.
 - [Analyse détaillée de la maquette Figma — Design System et dimensions](docs/analyse-detaillee-maquette-figma.md) : transcription complète des mesures, composants et caractéristiques de la maquette (source Confluence).
-- [Installation et démarrage d'OCMovies-API](docs/installation-ocmovies-api.md) : procédure issue du dépôt officiel, endpoints et vérifications à réaliser.
-- [Architecture JavaScript et intégration API](docs/architecture-javascript-api.md) : découpage cible, flux de données et état réel des fichiers JavaScript.
+- [Installation et démarrage d'OCMovies-API](docs/installation-ocmovies-api.md) : procédure d'installation, lancement et vérifications des endpoints.
+- [Analyse des réponses OCMovies-API](docs/analyse-api-ocmovies.md) : tri, pagination, filtrage et correspondance des données JSON avec l'interface.
+- [Architecture JavaScript et intégration API](docs/architecture-javascript-api.md) : organisation actuelle des scripts, flux de données et interactions.
 - [Tests et validation](docs/tests-et-validation.md) : bilan des contrôles réalisés, scénarios restants, W3C et navigateurs.
-- [Feuille de style actuelle](assets/css/style.css) : code CSS implémenté, voir le [commit `06a6be2`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/06a6be2).
+- [Feuille de style actuelle](assets/css/style.css) : styles responsive et modales ; première intégration historique dans le [commit `06a6be2`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/06a6be2).
 
 ## Structure du dépôt
 
@@ -96,15 +97,15 @@ OC-PY06-juststreamit/
 | S0 | Initialisation GitHub, Confluence et Jira | Terminé |
 | S1 | Installation et validation de OCMovies-API | Terminé |
 | S2 | Analyse des réponses de l'API | Terminé |
-| S3 | Structure HTML5 | En cours |
+| S3 | Structure HTML5 | Terminé |
 | S4 | Mise en forme CSS et intégration des maquettes | Terminé |
 | S5 | Chargement des données avec JavaScript | Terminé |
-| S6 | Responsive design | En cours |
+| S6 | Responsive design | Terminé |
 | S7 | Interface dynamique et modale | Terminé |
 | S8 | Catégorie dynamique | Terminé |
 | S9 | Validation, documentation et préparation de la soutenance | En cours |
 
-_Statuts Jira vérifiés le 22 octobre 2026._
+_Statuts Jira revérifiés le 22 octobre 2026, après la clôture de S3, S6 et PY06-22._
 
 
 
@@ -114,13 +115,13 @@ _Statuts Jira vérifiés le 22 octobre 2026._
 
 - **S2 — Analyse API :** les endpoints, les paramètres de tri, les filtres, la pagination et les réponses JSON ont été analysés et documentés dans [l'analyse API](docs/analyse-api-ocmovies.md).
 
-- **S3 — Structure HTML :** les sections, les cartes de films et les fenêtres modales sont implémentées. Le fichier `index.html` a passé la validation W3C sans erreur ni avertissement. L'épic Jira reste à clôturer.
+- **S3 — Structure HTML :** les sections, les cartes de films et les fenêtres modales sont implémentées. Le fichier `index.html` a passé la validation W3C sans erreur ni avertissement. L'épic Jira est clôturé ([PY06-5](https://fa8i1.atlassian.net/browse/PY06-5)).
 
 - **S4 — CSS et maquettes :** la présentation respecte les principes des maquettes Figma. La feuille CSS a passé la validation W3C sans erreur.
 
 - **S5 — JavaScript et API :** les films et les genres sont chargés dynamiquement avec `fetch()`. Le code est organisé en plusieurs fichiers selon leurs responsabilités.
 
-- **S6 — Responsive :** les mises en page mobile, tablette et ordinateur sont implémentées et testées. L'épic Jira reste à clôturer.
+- **S6 — Responsive :** les mises en page mobile, tablette et ordinateur sont implémentées et testées. L'épic Jira est clôturé ([PY06-8](https://fa8i1.atlassian.net/browse/PY06-8)).
 
 - **S7 — Interface dynamique :** les boutons « Voir plus / Voir moins » et les fenêtres modales de détail sont fonctionnels.
 
@@ -128,7 +129,7 @@ _Statuts Jira vérifiés le 22 octobre 2026._
 
 - **S9 — Qualité et soutenance :** les validations HTML et CSS W3C, les tests JavaScript, les tests de navigation au clavier et les contrôles sur Brave, Safari et Chrome ont été réalisés. La documentation finale et la préparation de la soutenance sont en cours.
 
-Les résultats des contrôles et les limites des tests sont consignés dans Confluence et seront intégrés à la documentation finale du dépôt.
+Les résultats des contrôles et les limites des tests figurent dans [Tests et validation](docs/tests-et-validation.md) et dans Confluence. La préparation de la soutenance se poursuit dans [PY06-34](https://fa8i1.atlassian.net/browse/PY06-34).
 
 
 ## Environnement de développement
