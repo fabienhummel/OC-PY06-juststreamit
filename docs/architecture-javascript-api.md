@@ -1,8 +1,8 @@
 # Architecture JavaScript et intégration API
 
-> **OC-PY06 — JustStreamIt · Code relu et analyse S2 actualisée le 22 octobre 2026**
+> **OC-PY06 — JustStreamIt · État du dépôt GitHub au 22 octobre 2026, commit `8c9916c`**
 >
-> **Document d'architecture cible, et non documentation de fonctionnalités JavaScript terminées.** Les quatre fichiers JS existent dans GitHub, mais ne contiennent actuellement que leurs en-têtes (et `"use strict";` dans `main.js`). Les appels `fetch()` et les interactions restent à développer. **Les réponses API et le mapping ont été analysés et testés en S2 le 22 octobre 2026** : voir [compte rendu S2](analyse-api-ocmovies.md).
+> **S2 (analyse) et S5 (chargement initial avec JavaScript vanilla) sont terminées.** Les requêtes `fetch()` et le rendu du meilleur film, du top 6, des catégories Action et Comedy et des 25 genres ont été développés et testés dans Brave. Les interactions des boutons, la modale et le choix dynamique de la catégorie « Autres » restent à implémenter en S7/S8. Voir [analyse S2](analyse-api-ocmovies.md) et [commit S5 PY06-26](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/8c9916ca17dcb030945a57dcd319ab57230c5839).
 
 ## 1. Objectif et contraintes
 
@@ -41,20 +41,22 @@ OC-PY06-juststreamit/
 
 ### Fichiers JavaScript
 
-| Fichier | Existe ? | Rôle prévu | État constaté |
-| --- | --- | --- | --- |
-| [`api.js`](../assets/js/api.js) | Oui | Requêtes `fetch()`, erreurs réseau et accès aux endpoints | En-tête uniquement |
-| [`movies.js`](../assets/js/movies.js) | Oui | Production des cartes, sections de films et affichage | En-tête uniquement |
-| [`modal.js`](../assets/js/modal.js) | Oui | Détails du film, ouverture/fermeture de la modale | En-tête uniquement |
-| [`main.js`](../assets/js/main.js) | Oui | Initialisation et coordination des événements | En-tête et `"use strict";` uniquement |
+| Fichier | Rôle | État vérifié sur `main` |
+| --- | --- | --- |
+| [`api.js`](../assets/js/api.js) | `fetchApi()`, `getTopMovies()`, `getGenres()`, `getMoviesByGenre()`, `getMovieDetails()` | **Implémenté**, accès HTTP/JSON et gestion des erreurs, testé en Brave (PY06-25) |
+| [`movies.js`](../assets/js/movies.js) | `displayBestMovie()`, `displayMovieCards()`, `displayGenres()`, `setMoviePoster()` | **Implémenté**, rend les films et les genres dans le DOM ; remplacement des affiches défaillantes (PY06-26) |
+| [`modal.js`](../assets/js/modal.js) | Détails du film, ouverture/fermeture de la modale | **À développer** (en-tête seulement) |
+| [`main.js`](../assets/js/main.js) | `initializeApp()` et chargement des sections au `DOMContentLoaded` | **Implémenté** pour l'initialisation S5 ; événements d'interface à développer en S7/S8 |
 
-**Seul `main.js` est actuellement chargé** dans `index.html` par :
+**Trois scripts classiques** sont désormais chargés par `index.html`, dans cet ordre (avec `defer`) :
 
 ~~~html
+<script src="assets/js/api.js" defer></script>
+<script src="assets/js/movies.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 ~~~
 
-La manière de relier ultérieurement ces quatre fichiers reste à décider lors de l'implémentation (ne pas considérer les autres fichiers comme automatiquement chargés).
+L'ordre garantit que les fonctions d'accès API et d'affichage sont disponibles lorsque `main.js` démarre. **`modal.js` n'est pas encore inclus**, car il ne possède pas de logique fonctionnelle.
 
 ### HTML/CSS déjà préparés
 
@@ -66,11 +68,11 @@ Le fichier [`index.html`](../index.html) contient :
 - `#other-category` : catégorie sélectionnable avec `#genre-select` ;
 - un unique `#movie-modal` placé à la fin de `main`, avec informations du film et deux commandes de fermeture.
 
-Chaque section de liste contient **six cartes statiques**, soit **24 cartes de films temporaires** dans le HTML courant. La modale et les cartes contiennent encore des données factices.
+Chaque grille contient **six éléments de carte préécrits dans le HTML**, soit 24 emplacements. Le JavaScript renseigne désormais les cartes de `#top-movies`, `#category-1` et `#category-2`, soit **18 cartes initialisées** ; les six cartes de `#other-category` ainsi que la modale contiennent encore des données temporaires.
 
 La feuille [`style.css`](../assets/css/style.css) fournit déjà les présentations responsive, les styles de la modale et les contrôles visuels ; **elle ne rend pas les boutons fonctionnels**.
 
-## 3. Flux de données cible (non implémenté)
+## 3. Flux de données — partie S5 implémentée, interactions S7/S8 à venir
 
 ~~~text
 Serveur local OCMovies-API
@@ -89,9 +91,9 @@ Données de films / genres
                Présentation via style.css
 ~~~
 
-Le schéma représente les **responsabilités envisagées**, pas des appels entre modules déjà programmés.
+**Implémenté en S5 :** `main.js` lance `initializeApp()` lors de `DOMContentLoaded`, appelle les fonctions de `api.js` et les fonctions d'affichage de `movies.js`. **Non implémenté :** la branche `modal.js`, les clics sur les films, les boutons et le changement de genre. Le schéma indique à la fois le flux existant et cette extension cible.
 
-Le chargement initial devra être coordonné au chargement du document (`DOMContentLoaded` dans les consignes de l'étape 5). La manipulation du DOM, les événements et le traitement asynchrone doivent rester lisibles et facilement explicables en soutenance.
+La récupération des 7 premiers films alimente le meilleur film et les six suivants ; deux requêtes distinctes remplissent les catégories fixes. La liste des 25 genres peuple `#genre-select`. Le détail du meilleur film est récupéré séparément pour obtenir son résumé.
 
 ## 4. Endpoints documentés
 
@@ -117,13 +119,13 @@ La page [Confluence — OCMovies API](https://fa8i1.atlassian.net/wiki/spaces/OC
 | Boutons Voir plus / Voir moins | État de visibilité des 6 films d'une section | S7 |
 | Clic film / Détails | Identifiant puis données de détail du film | S7 |
 
-La correspondance **fonctionnelle** est définie et les clés JSON des réponses observées ainsi que les requêtes retenues sont détaillées dans [l'analyse S2](analyse-api-ocmovies.md). Le code JavaScript reste à implémenter : ce tableau décrit une architecture cible et non un comportement déjà livré.
+La correspondance **fonctionnelle** est définie et les clés JSON et requêtes validées sont détaillées dans [l'analyse S2](analyse-api-ocmovies.md). **Les zones S5** (vedette, top, deux catégories fixes, menu des genres) sont effectivement alimentées depuis l'API ; **les interactions S7/S8** restent des comportements cibles.
 
 ### Informations attendues dans la modale
 
 Selon le cahier des charges : affiche, titre, genres complets, date de sortie, classification, score IMDb, réalisateur, acteurs, durée, pays d'origine, recettes au box-office et résumé. Le HTML prépare les conteneurs correspondants, mais les valeurs sont encore temporaires.
 
-Pour les affiches, utiliser l'URL du champ `image_url` renvoyé par l'API. Le recadrage visuel est confié au CSS (par exemple `object-fit: cover`), plutôt qu'à une modification non documentée de l'URL.
+Les affiches utilisent `image_url` renvoyé par l'API ; `setMoviePoster()` bascule vers `assets/images/movie_poster.png` en cas d'échec de chargement ou d'URL absente. Le CSS conserve le recadrage (`object-fit: cover`) ; les erreurs HTTP 404 des ressources externes peuvent rester visibles dans les outils réseau de Brave, sans exception JavaScript non gérée.
 
 ## 6. Responsive et états dynamiques à implémenter
 
@@ -142,23 +144,23 @@ Le CSS prépare une classe `.modal.is-open` pour afficher la modale. Il reste à
 ## 7. Étapes de réalisation suggérées
 
 1. **S2 — Analyse API (réalisée le 22/10/2026)** : réponses, filtres, tri, pagination, genres et mapping consignés dans [l'analyse S2](analyse-api-ocmovies.md).
-2. **S5 — Accès API** : définir les fonctions de `api.js`, leur gestion d'erreurs et le chargement initial.
-3. **S5 — Affichage des films** : réutiliser les structures HTML existantes et remplacer les placeholders.
+2. **S5 — Accès API (réalisé, PY06-25)** : fonctions de `api.js`, gestion HTTP/JSON et erreurs testées dans Brave, [commit `d45fd1d`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/d45fd1db5b0158f978c2b84f3ea2e6c022f34936).
+3. **S5 — Affichage des films et genres (réalisé, PY06-26)** : initialisation automatique et affichage des zones fixes et des genres, [commit `8c9916c`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/8c9916ca17dcb030945a57dcd319ab57230c5839).
 4. **S6/S7 — Responsive et interactions** : adapter l'affichage par défaut (2 / 4 / 6 films), gérer Voir plus / Voir moins et la modale.
 5. **S8 — Catégorie dynamique** : charger les genres depuis l'API, actualiser les six films de la catégorie sélectionnée et conserver le fonctionnement des interactions.
 6. **S9 — Contrôle final** : vérification des fonctions, de la console, de l'accessibilité de base et des validateurs W3C.
 
-Les fonctions, signatures et schémas de données **ne sont volontairement pas inventés** ici : ils seront documentés lors de leur implémentation effective.
+Les fonctions S5 présentées correspondent au **code réel présent sur la branche `main`**. Les fonctions S7/S8 et leurs signatures seront précisées lors de leur développement ; aucune intégration dynamique non testée n'est présentée comme achevée.
 
-## 8. Jira au 12 octobre 2026
+## 8. État Jira vérifié le 22 octobre 2026
 
 | Epic / ticket | Statut |
 | --- | --- |
-| [PY06-4 — S2 API Analysis](https://fa8i1.atlassian.net/browse/PY06-4) | En cours |
-| [PY06-7 — S5 JavaScript & API](https://fa8i1.atlassian.net/browse/PY06-7) | À faire |
-| [PY06-25 — Accès API avec fetch](https://fa8i1.atlassian.net/browse/PY06-25) | À faire |
-| [PY06-26 — Chargement des données](https://fa8i1.atlassian.net/browse/PY06-26) | À faire |
-| [PY06-8 — S6 Responsive](https://fa8i1.atlassian.net/browse/PY06-8) | En cours (CSS réalisé, tests restants) |
+| [PY06-4 — S2 API Analysis](https://fa8i1.atlassian.net/browse/PY06-4) | Terminé |
+| [PY06-7 — S5 JavaScript & API](https://fa8i1.atlassian.net/browse/PY06-7) | Terminé |
+| [PY06-25 — Accès API avec fetch](https://fa8i1.atlassian.net/browse/PY06-25) | Terminé |
+| [PY06-26 — Chargement des données](https://fa8i1.atlassian.net/browse/PY06-26) | Terminé |
+| [PY06-8 — S6 Responsive](https://fa8i1.atlassian.net/browse/PY06-8) | En cours |
 | [PY06-9 — S7 Dynamic UI](https://fa8i1.atlassian.net/browse/PY06-9) | À faire |
 | [PY06-10 — S8 Dynamic Category](https://fa8i1.atlassian.net/browse/PY06-10) | À faire |
 
@@ -167,7 +169,7 @@ Les fonctions, signatures et schémas de données **ne sont volontairement pas i
 - [S2 — Analyse des réponses OCMovies et mapping JSON/HTML](analyse-api-ocmovies.md) : tests réels du 22 octobre 2026.
 
 - [Confluence — Architecture front-end](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/31522857).
-- [Confluence — JavaScript et intégration API](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/30965762).
+- [Confluence — JavaScript et intégration API](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/30965762) : implémentation S5 et résultats des tests Brave.
 - [Confluence — OCMovies API](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/31555585).
 - [README officiel OCMovies-API](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR/blob/master/README.md).
 - [OpenClassrooms — Projet 6, étapes 2 à 8](https://openclassrooms.com/fr/paths/879/projects/835).
