@@ -1,8 +1,8 @@
 # Installation et démarrage d'OCMovies-API
 
-> **OC-PY06 — JustStreamIt · État documentaire mis à jour le 12 octobre 2026**
+> **OC-PY06 — JustStreamIt · Procédure S1 et vérifications S2 mises à jour le 22 octobre 2026**
 >
-> Ce guide reprend la **procédure officielle d'installation et de démarrage**. Le développeur confirme avoir installé l'API en local, avec son environnement et ses dépendances ([PY06-14](https://fa8i1.atlassian.net/browse/PY06-14), **Terminé**). Le démarrage et la réponse de l'API ont été consignés précédemment ([PY06-15](https://fa8i1.atlassian.net/browse/PY06-15), **Terminé**). La rédaction de ce guide répond à [PY06-16](https://fa8i1.atlassian.net/browse/PY06-16), **Terminé**. **Aucun nouveau test de l'API locale n'a été exécuté pour mettre cette documentation à jour.**
+> Ce guide reprend la **procédure officielle d'installation et de démarrage**. Le développeur confirme avoir installé l'API en local, avec son environnement et ses dépendances ([PY06-14](https://fa8i1.atlassian.net/browse/PY06-14), **Terminé**). Le démarrage et la réponse de l'API ont été consignés précédemment ([PY06-15](https://fa8i1.atlassian.net/browse/PY06-15), **Terminé**). La rédaction de ce guide répond à [PY06-16](https://fa8i1.atlassian.net/browse/PY06-16), **Terminé**. **Mise à jour S2 (22/10/2026) :** des tests de liste, tri, pagination, filtres, genres et détails de films ont été effectivement réalisés par le développeur sur son API locale. Ils sont consignés dans [S2 — Analyse des réponses de l'API OCMovies](analyse-api-ocmovies.md).
 
 ## 1. Rôle et périmètre
 
@@ -131,7 +131,7 @@ curl -i http://localhost:8000/api/v1/titles/499549
 curl -i http://localhost:8000/api/v1/genres/
 ~~~
 
-À contrôler : réponse HTTP exploitable, corps JSON, structure des listes et du détail, présence éventuelle de pagination. **Ces requêtes sont des tests à effectuer : elles n'ont pas été exécutées pour rédiger cette page.**
+À contrôler : réponse HTTP exploitable, corps JSON, structure des listes et du détail, présence éventuelle de pagination. **Traçabilité :** ces exemples de commande figuraient déjà dans le guide S1. Le 22 octobre 2026, des requêtes réelles ont été exécutées sur ces ressources, et sont documentées avec leurs réponses dans [l'analyse S2](analyse-api-ocmovies.md).
 
 ### Filtres disponibles selon le README officiel
 
@@ -144,7 +144,7 @@ Sur `/api/v1/titles/`, le README décrit notamment :
 
 Sur `/api/v1/genres/` : `name_contains=<texte>` et `movie_title_contains=<texte>`.
 
-**À confirmer en S2 :** le champ de tri exact à utiliser pour le classement IMDb, l'ordre et la pagination réels, ainsi que le mapping des réponses JSON. Le README illustre la syntaxe de `sort_by`, mais la requête finale de JustStreamIt doit encore être vérifiée.
+**Vérifié expérimentalement le 22 octobre 2026 :** le classement décroissant fonctionne avec `sort_by=-imdb_score`, le filtrage Action avec `genre=Action`, et `page_size=7` pour le classement (7 films) ou `page_size=6` pour un genre (6 films). La liste des 25 genres est récupérable via `/genres/?page_size=25`. Le paramètre `page_size`, absent du README officiel, a été observé fonctionner sur l'installation locale avec 6, 7 et 25 selon les endpoints ; sa limite supérieure n'a pas été testée. Le [compte rendu S2](analyse-api-ocmovies.md) fournit commandes, réponses et mapping.
 
 ### Images
 
@@ -164,7 +164,7 @@ Si une commande échoue, identifier d'abord la phase :
 
 Ne pas présenter un résultat comme réussi avant de l'avoir observé. Conserver, si utile, les commandes effectivement utilisées et le retour obtenu pour la soutenance.
 
-## 8. État d'avancement Jira au 12 octobre 2026
+## 8. État d'avancement Jira — résultats S2 du 22 octobre 2026
 
 | Ticket | Suivi |
 | --- | --- |
@@ -172,9 +172,11 @@ Ne pas présenter un résultat comme réussi avant de l'avoir observé. Conserve
 | [PY06-14 — Préparer l'environnement](https://fa8i1.atlassian.net/browse/PY06-14) | Terminé — installation confirmée par le développeur |
 | [PY06-15 — Lancer et vérifier l'API](https://fa8i1.atlassian.net/browse/PY06-15) | Terminé (déclaré dans Jira) |
 | [PY06-16 — Documenter l'installation](https://fa8i1.atlassian.net/browse/PY06-16) | Terminé — documentation publiée (distincte d'un nouveau test pratique) |
-| [PY06-4 — S2 Analyse API](https://fa8i1.atlassian.net/browse/PY06-4) | En cours |
+| [PY06-4 — S2 Analyse API](https://fa8i1.atlassian.net/browse/PY06-4) | Analyse réalisée le 22/10/2026 ; clôture Jira à synchroniser |
 
 ## Sources
+
+- [S2 — Analyse des réponses OCMovies et mapping JSON/HTML](analyse-api-ocmovies.md) : résultats réels du 22 octobre 2026.
 
 - [README officiel OCMovies-API](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR/blob/master/README.md) : procédure et endpoints.
 - [Confluence — OCMovies API](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/31555585) : essai documenté et travaux restants.
