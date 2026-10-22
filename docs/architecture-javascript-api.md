@@ -1,8 +1,8 @@
 # Architecture JavaScript et intégration API
 
-> **OC-PY06 — JustStreamIt · État observé le 12 octobre 2026**
+> **OC-PY06 — JustStreamIt · Code relu et analyse S2 actualisée le 22 octobre 2026**
 >
-> **Document d'architecture cible, et non documentation de fonctionnalités JavaScript terminées.** Les quatre fichiers JS existent dans GitHub, mais ne contiennent actuellement que leurs en-têtes (et `"use strict";` dans `main.js`). Les appels `fetch()` et les interactions restent à développer.
+> **Document d'architecture cible, et non documentation de fonctionnalités JavaScript terminées.** Les quatre fichiers JS existent dans GitHub, mais ne contiennent actuellement que leurs en-têtes (et `"use strict";` dans `main.js`). Les appels `fetch()` et les interactions restent à développer. **Les réponses API et le mapping ont été analysés et testés en S2 le 22 octobre 2026** : voir [compte rendu S2](analyse-api-ocmovies.md).
 
 ## 1. Objectif et contraintes
 
@@ -97,13 +97,13 @@ Le chargement initial devra être coordonné au chargement du document (`DOMCont
 
 | Besoin | Endpoint officiel | Vérification dans le projet |
 | --- | --- | --- |
-| Liste des films | `GET /api/v1/titles/` | Requête finale, tri et pagination à analyser |
-| Détail d'un film | `GET /api/v1/titles/{id}` | Test antérieur documenté : `/api/v1/titles/499549` (*Avatar*) |
-| Genres disponibles | `GET /api/v1/genres/` | Catalogue et structure JSON à analyser |
+| Liste des films | `GET /api/v1/titles/` | Testée ; `sort_by=-imdb_score`, `page_size=7` et filtres confirmés localement le 22/10/2026 |
+| Détail d'un film | `GET /api/v1/titles/{id}` | Retesté sur *Avatar* (499549) et *Hopeful Notes* (1508669) le 22/10/2026 |
+| Genres disponibles | `GET /api/v1/genres/` | Testé : `count=25`, `page_size=25`, `next=null` |
 
-Le [README officiel](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR/blob/master/README.md) documente les paramètres `genre=<nom>`, `sort_by=<champ>` et plusieurs filtres. **Le champ exact de tri IMDb et les règles de pagination à utiliser dans JustStreamIt restent à tester et consigner en S2**. Ne pas remplacer cette vérification par une hypothèse sur l'API.
+Le [README officiel](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR/blob/master/README.md) documente les paramètres `genre=<nom>`, `sort_by=<champ>` et plusieurs filtres. **Le tri IMDb et la pagination ont été vérifiés expérimentalement le 22/10/2026** : `sort_by=-imdb_score` et `page_size=7` pour la liste générale, `page_size=6` avec `genre=Action` pour une catégorie. Voir [l'analyse S2](analyse-api-ocmovies.md). `page_size` n'est pas mentionné dans le README officiel et n'est garanti ici que pour les valeurs effectivement testées.
 
-La page [Confluence — OCMovies API](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/31555585) consigne un test de détail d'*Avatar* et la présence de données nécessaires à la modale. Elle confirme notamment le champ `image_url`, mais **pas encore un mapping exhaustif des noms de propriétés JSON**.
+La page [Confluence — OCMovies API](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/31555585) consigne un test de détail d'*Avatar* et la présence de données nécessaires à la modale. Elle confirme notamment le champ `image_url`. **Le mapping vérifié en S2** avec les réponses locales et le HTML courant est maintenant décrit dans [l'analyse S2](analyse-api-ocmovies.md).
 
 ## 5. Correspondance besoins UI → données
 
@@ -117,7 +117,7 @@ La page [Confluence — OCMovies API](https://fa8i1.atlassian.net/wiki/spaces/OC
 | Boutons Voir plus / Voir moins | État de visibilité des 6 films d'une section | S7 |
 | Clic film / Détails | Identifiant puis données de détail du film | S7 |
 
-La correspondance **fonctionnelle** est définie ; les clés JSON exactes, la stratégie de requêtes (nombre de pages, tri, exclusions) et le format des réponses devront être renseignés après inspection de l'API.
+La correspondance **fonctionnelle** est définie et les clés JSON des réponses observées ainsi que les requêtes retenues sont détaillées dans [l'analyse S2](analyse-api-ocmovies.md). Le code JavaScript reste à implémenter : ce tableau décrit une architecture cible et non un comportement déjà livré.
 
 ### Informations attendues dans la modale
 
@@ -141,7 +141,7 @@ Le CSS prépare une classe `.modal.is-open` pour afficher la modale. Il reste à
 
 ## 7. Étapes de réalisation suggérées
 
-1. **S2 — Analyse API** : confirmer les réponses JSON, filtres, tri et pagination ; rédiger la table des propriétés exactes.
+1. **S2 — Analyse API (réalisée le 22/10/2026)** : réponses, filtres, tri, pagination, genres et mapping consignés dans [l'analyse S2](analyse-api-ocmovies.md).
 2. **S5 — Accès API** : définir les fonctions de `api.js`, leur gestion d'erreurs et le chargement initial.
 3. **S5 — Affichage des films** : réutiliser les structures HTML existantes et remplacer les placeholders.
 4. **S6/S7 — Responsive et interactions** : adapter l'affichage par défaut (2 / 4 / 6 films), gérer Voir plus / Voir moins et la modale.
@@ -163,6 +163,8 @@ Les fonctions, signatures et schémas de données **ne sont volontairement pas i
 | [PY06-10 — S8 Dynamic Category](https://fa8i1.atlassian.net/browse/PY06-10) | À faire |
 
 ## Sources
+
+- [S2 — Analyse des réponses OCMovies et mapping JSON/HTML](analyse-api-ocmovies.md) : tests réels du 22 octobre 2026.
 
 - [Confluence — Architecture front-end](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/31522857).
 - [Confluence — JavaScript et intégration API](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/30965762).
