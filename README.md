@@ -67,7 +67,9 @@ OC-PY06-juststreamit/
 │   ├── css/
 │   │   └── style.css
 │   ├── images/
-│   │   └── .gitkeep
+│   │   ├── .gitkeep
+│   │   ├── logo_juststreamit.svg
+│   │   └── movie_poster.png
 │   └── js/
 │       ├── api.js
 │       ├── main.js
@@ -75,6 +77,7 @@ OC-PY06-juststreamit/
 │       └── movies.js
 ├── docs/
 │   ├── .gitkeep
+│   ├── analyse-api-ocmovies.md
 │   ├── analyse-detaillee-maquette-figma.md
 │   ├── architecture-javascript-api.md
 │   ├── installation-ocmovies-api.md
@@ -87,27 +90,46 @@ OC-PY06-juststreamit/
 
 ## Roadmap
 
+
 | Étape | Contenu | Statut |
 | --- | --- | --- |
 | S0 | Initialisation GitHub, Confluence et Jira | Terminé |
 | S1 | Installation et validation de OCMovies-API | Terminé |
-| S2 | Analyse des réponses de l'API | En cours |
+| S2 | Analyse des réponses de l'API | Terminé |
 | S3 | Structure HTML5 | En cours |
-| S4 | Mise en forme CSS et intégration des maquettes | En cours |
-| S5 | Chargement des données avec JavaScript | À faire |
+| S4 | Mise en forme CSS et intégration des maquettes | Terminé |
+| S5 | Chargement des données avec JavaScript | Terminé |
 | S6 | Responsive design | En cours |
-| S7 | Interface dynamique et modale | À faire |
-| S8 | Catégorie dynamique | À faire |
-| S9 | Validation, documentation et préparation de la soutenance | À faire |
+| S7 | Interface dynamique et modale | Terminé |
+| S8 | Catégorie dynamique | Terminé |
+| S9 | Validation, documentation et préparation de la soutenance | En cours |
 
-_Statuts des épics Jira PY06 vérifiés le 12 octobre 2026._
+_Statuts Jira vérifiés le 22 octobre 2026._
 
-- **S1 :** étape « Terminé » dans Jira ([PY06-3](https://fa8i1.atlassian.net/browse/PY06-3)). L'installation locale et ses dépendances ont été confirmées par le développeur ([PY06-14](https://fa8i1.atlassian.net/browse/PY06-14)) ; le lancement et le test de l'endpoint de détail d'Avatar ont été consignés auparavant ([PY06-15](https://fa8i1.atlassian.net/browse/PY06-15)) ; la procédure est documentée dans [le guide OCMovies-API](docs/installation-ocmovies-api.md) ([PY06-16](https://fa8i1.atlassian.net/browse/PY06-16)). Les autres endpoints, leur tri, pagination et mapping JSON restent à approfondir en S2.
-- **S2 :** un test de l'endpoint de détail d'un film est documenté dans Confluence ; l'analyse de la liste, des genres et le mapping JSON complet restent à achever.
-- **S3 :** la structure HTML des sections et de la modale est présente dans `index.html` avec des données temporaires ; la validation HTML de base reste à effectuer.
-- **S4 :** les neuf modules CSS (y compris la modale) sont implémentés et versionnés dans le commit `06a6be2`. Les vérifications visuelles ont été faites dans Brave. L'épic demeure « En cours » jusqu'aux validations W3C et aux contrôles multi-navigateurs.
-- **S6 :** les règles responsive mobile first et les grilles à un, deux et trois colonnes sont implémentées. Les contrôles dans Brave sont effectués ; l'étape reste « En cours » pour les tests complémentaires.
-- **S5 à S8 :** la présence de contrôles HTML et de styles CSS ne signifie pas que les interactions JavaScript sont déjà fonctionnelles.
+
+
+## État des réalisations
+
+- **S1 — Installation API :** OCMovies-API est installée et fonctionne en local. La procédure est documentée dans [le guide d'installation](docs/installation-ocmovies-api.md).
+
+- **S2 — Analyse API :** les endpoints, les paramètres de tri, les filtres, la pagination et les réponses JSON ont été analysés et documentés dans [l'analyse API](docs/analyse-api-ocmovies.md).
+
+- **S3 — Structure HTML :** les sections, les cartes de films et les fenêtres modales sont implémentées. Le fichier `index.html` a passé la validation W3C sans erreur ni avertissement. L'épic Jira reste à clôturer.
+
+- **S4 — CSS et maquettes :** la présentation respecte les principes des maquettes Figma. La feuille CSS a passé la validation W3C sans erreur.
+
+- **S5 — JavaScript et API :** les films et les genres sont chargés dynamiquement avec `fetch()`. Le code est organisé en plusieurs fichiers selon leurs responsabilités.
+
+- **S6 — Responsive :** les mises en page mobile, tablette et ordinateur sont implémentées et testées. L'épic Jira reste à clôturer.
+
+- **S7 — Interface dynamique :** les boutons « Voir plus / Voir moins » et les fenêtres modales de détail sont fonctionnels.
+
+- **S8 — Catégorie dynamique :** l'utilisateur peut sélectionner un genre et consulter les films correspondants. Biography est sélectionné par défaut.
+
+- **S9 — Qualité et soutenance :** les validations HTML et CSS W3C, les tests JavaScript, les tests de navigation au clavier et les contrôles sur Brave, Safari et Chrome ont été réalisés. La documentation finale et la préparation de la soutenance sont en cours.
+
+Les résultats des contrôles et les limites des tests sont consignés dans Confluence et seront intégrés à la documentation finale du dépôt.
+
 
 ## Environnement de développement
 

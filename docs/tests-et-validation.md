@@ -16,153 +16,391 @@ Sources de contrôle :
 
 La mission demande un rendu responsive sur trois formats, une interface conforme à la maquette, des requêtes via `fetch()`, du JavaScript vanilla, du HTML sémantique, une validation HTML/CSS W3C et une absence d'erreurs JavaScript en console.
 
-## 2. État réellement observé
 
-### Contrôles déjà effectués manuellement
+## 2. État réellement observé au 22 octobre 2026
 
-- **Brave** : le header, les sections, le meilleur film, les cartes, les boutons et le sélecteur de catégories ont été inspectés visuellement sur des mises en page mobile, tablette et ordinateur au cours de l'intégration CSS.
-- **Modale** : son affichage a été simulé avec la classe `is-open` dans les outils de développement ; les dispositions ordinateur et tablette/mobile ont été examinées et corrigées.
-- **Sélecteur « Autres »** : disposition mobile sous le titre et centrée ; tablette/desktop sur la même ligne ; texte mobile ajusté pour éviter la troncature dans l'exemple de placeholder.
-- **WebStorm** : aucun avertissement ou erreur CSS restant n'a été signalé par le développeur lors de la finalisation des modules.
-- **Versionnement** : la feuille CSS a été poussée sur GitHub dans le [commit `06a6be2`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/06a6be2).
+### Contrôles fonctionnels réalisés
 
-**Portée de ces constats :** ce sont des validations **manuelles du rendu CSS**, fondées sur les contrôles communiqués pendant le travail. Elles ne prouvent pas la conformité W3C, la compatibilité générale, les performances, ni le fonctionnement des futures interactions.
+- **OCMovies-API :** les endpoints des films, des détails et des genres ont été vérifiés.
+- **Chargement initial :** le meilleur film, les six films les mieux notés et les catégories fixes Action et Comedy sont alimentés depuis l'API.
+- **Catégorie dynamique :** les genres sont récupérés depuis l'API. Biography est sélectionné automatiquement au démarrage.
+- **Voir plus / Voir moins :** le nombre de films affichés s'adapte aux formats mobile, tablette et ordinateur.
+- **Modale de détail :** les informations des films sont récupérées dynamiquement et affichées correctement.
+- **Accessibilité :** ouverture au clavier, fermeture avec Échap, gestion du focus et attributs ARIA testés.
+- **Gestion des erreurs :** une modale générique signale les échecs des requêtes API. Le retour à un fonctionnement normal a été vérifié.
+- **Requêtes simultanées :** les réponses obsolètes sont ignorées lors des changements rapides de genre ou de film.
 
-### Éléments non encore validés
+### Validations techniques
 
-- Pas de résultat de validation **HTML W3C** ni **CSS W3C** consigné.
-- Pas de campagne de test complète consignée sous **Firefox** et **Safari**.
-- Pas de test de parcours JavaScript complet (les fichiers JS sont encore des squelettes).
-- Pas de test intégré du front-end avec des films effectivement chargés depuis l'API.
-- Pas de rapport de tests automatisés déclaré.
+- **HTML W3C :** 0 erreur, 0 avertissement lors de la dernière validation communiquée.
+- **CSS W3C :** 0 erreur, 7 avertissements informatifs.
+- **JavaScript :** vérification syntaxique des fichiers avec `node --check`, sans erreur.
+- **Git :** vérification avec `git diff --check`, sans anomalie.
+- **Navigateurs :** fonctionnement confirmé manuellement dans Brave, Safari et Google Chrome.
+
+### Limites des vérifications
+
+- Les tests sont principalement manuels ; aucune suite de tests automatisés n'a été exécutée.
+- Firefox n'a pas encore fait l'objet d'un test confirmé.
+- Certaines affiches distantes renvoient des erreurs HTTP 404. Une image locale de remplacement est utilisée.
+- Une validation HTML finale reste à refaire après les tout derniers ajustements structurels.
+
+
 
 ## 3. Formats et responsive
 
-Les artboards Figma sont des **références visuelles**, distinctes des breakpoints CSS :
+L'interface utilise une approche **mobile first**, avec deux points de rupture CSS : 768 px et 1024 px.
 
-| Format | Largeur Figma à essayer | Breakpoint CSS retenu | Grille actuelle | Objectif fonctionnel final |
-| --- | ---: | --- | --- | --- |
-| Mobile | 456 px | styles par défaut (< 768 px) | 1 colonne | 2 films visibles au chargement, 6 après « Voir plus » |
-| Tablette | 788 px | ≥ 768 px et < 1024 px | 2 colonnes | 4 films visibles au chargement, 6 après « Voir plus » |
-| Ordinateur | 1054 px | ≥ 1024 px | 3 colonnes | 6 films visibles sans « Voir plus » |
+Les dimensions des maquettes Figma servent de références pour les tests visuels.
 
-**Important :** six cartes sont encore présentes dans chacune des quatre sections du HTML. La réduction de visibilité à **2/4/6** et les boutons **Voir plus / Voir moins fonctionnels** ne sont **pas encore implémentés** : les styles responsive ne suffisent pas à remplir cette exigence de l'étape S7.
+| Format | Largeur testée | Organisation | Films visibles initialement |
+| --- | ---: | --- | ---: |
+| Mobile | 456 px | 1 colonne | 2 |
+| Tablette | 788 px | 2 colonnes | 4 |
+| Ordinateur | 1054 px | 3 colonnes | 6 |
 
-Contrôles responsive à reproduire après chaque évolution structurante :
+### Boutons « Voir plus / Voir moins »
 
-- absence de défilement horizontal indésirable ;
-- dimensions du header, du meilleur film et des affiches ;
-- colonnes 1 / 2 / 3, images non déformées (recadrage `object-fit: cover`) ;
-- position du sélecteur « Autres » et lisibilité de ses options ;
-- texte qui ne déborde pas, y compris les longs titres et résumés ;
-- modale accessible au défilement et commandes de fermeture visibles suivant le format ;
-- largeur étroite supplémentaire (par exemple 320 px) comme test de robustesse **recommandé**, non relevé Figma.
+- **Mobile :** « Voir plus » affiche jusqu'à 6 films au lieu de 2.
+- **Tablette :** « Voir plus » affiche jusqu'à 6 films au lieu de 4.
+- **Ordinateur :** les 6 films sont directement visibles et le bouton est masqué.
+- **Catégorie dynamique :** le bouton est masqué lorsque le nombre de films ne permet pas d'en afficher davantage.
 
-## 4. Plan de tests fonctionnels — à exécuter au fil des étapes
+Les changements d'état sont gérés en JavaScript avec la classe CSS `is-expanded` et l'attribut `aria-expanded`.
 
-| Test | Résultat attendu | État à la rédaction |
+### Tests réalisés
+
+- Affichage des cartes vérifié sur les trois formats de référence.
+- Fonctionnement de « Voir plus / Voir moins » confirmé.
+- Changement de genre testé avec la catégorie dynamique.
+- Passage de 6 à 2 puis à 6 films vérifié avec les genres Biography et Adult.
+- Redimensionnement de 456 à 788 puis 1054 px sans rechargement : fonctionnement confirmé.
+- Défilement vertical et fermeture de la modale sur mobile : fonctionnement confirmé.
+
+### Limites
+
+Les contrôles ont été réalisés manuellement. Une campagne automatisée de tests responsive n'a pas été effectuée.
+
+Une vérification supplémentaire sur des écrans très étroits, notamment à 320 px, reste recommandée.
+
+
+## 4. Résultats des tests fonctionnels
+
+Les tests suivants ont été réalisés manuellement avec
+OCMovies-API exécutée en local.
+
+| Fonctionnalité | Résultat attendu | État |
 | --- | --- | --- |
-| API locale | Réponse exploitable aux GET `/titles/`, `/titles/{id}` et `/genres/` | Test antérieur du détail documenté ; campagne complète à refaire |
-| Meilleur film | Meilleure note IMDb toutes catégories, vrai titre, affiche, résumé | **À développer** (S5) |
-| Films les mieux notés | Autres meilleurs films selon classement, 6 cartes | HTML/CSS préparés, données **à développer** |
-| Catégories 1 et 2 | Deux genres fixes distincts, six films classés chacun | HTML/CSS préparés, API **à développer** |
-| Autres — menu | Genres alimentés depuis `/genres/` | Style testé ; données **à développer** (S8) |
-| Autres — changement | Nouvelle requête de films et remplacement des cartes | **À développer** (S8) |
-| Mobile — affichage initial | 2 films visibles dans chaque liste | **À développer** (S7) |
-| Tablette — affichage initial | 4 films visibles dans chaque liste | **À développer** (S7) |
-| Ordinateur — affichage initial | 6 films visibles, bouton Voir plus absent | Grille et masquage du bouton en CSS ; interaction finale **à vérifier** |
-| Voir plus / Voir moins | Basculer entre 2/4 et 6 selon le format | Bouton stylisé, logique **à développer** (S7) |
-| Clic sur une affiche ou Détails | Ouverture de la modale pour le film choisi | Modale HTML/CSS préparée, logique **à développer** (S7) |
-| Détails de modale | Informations complètes, issues du bon film | Placeholders présents, données **à développer** |
-| Fermer la modale | Fermeture par les commandes prévues | Contrôles HTML/CSS présents, événements **à développer** |
-| Absence d'erreurs JS | Console sans erreurs durant les parcours réalisés | **Non évalué pour l'application dynamique** |
+| API locale | Récupération des films, genres et détails | Validé |
+| Meilleur film | Titre, affiche et résumé du film le mieux noté | Validé |
+| Films les mieux notés | Six films supplémentaires classés par score IMDb | Validé |
+| Catégories fixes | Chargement des films Action et Comedy | Validé |
+| Catégorie dynamique | Genres récupérés depuis l'API | Validé |
+| Catégorie par défaut | Biography sélectionné au démarrage | Validé |
+| Changement de genre | Actualisation des films sans recharger la page | Validé |
+| Résultats insuffisants | Masquage des cartes inutilisées | Validé |
+| Affichage mobile | Deux films visibles initialement | Validé |
+| Affichage tablette | Quatre films visibles initialement | Validé |
+| Affichage ordinateur | Six films visibles, sans bouton Voir plus | Validé |
+| Voir plus / Voir moins | Affichage ou masquage des films supplémentaires | Validé |
+| Détails d'un film | Ouverture de la modale correspondant au film sélectionné | Validé |
+| Informations de la modale | Affichage des données détaillées issues de l'API | Validé |
+| Fermeture de la modale | Boutons et touche Échap fonctionnels | Validé |
+| Navigation au clavier | Gestion du focus et des touches Tab / Shift + Tab | Validé |
+| Images indisponibles | Affichage d'une image locale de remplacement | Validé |
+| Requêtes rapprochées | Ignorance des réponses obsolètes | Test manuel réussi |
+| Erreur réseau | Affichage d'une modale d'erreur générique | Validé |
+| Retour à la connexion | Chargement à nouveau fonctionnel sans actualisation | Validé |
+| Erreurs JavaScript | Aucune exception visible durant les contrôles Brave | Validé sur les parcours testés |
 
-Ne cocher un test comme « réussi » qu'après une exécution effective, avec les données et le scénario correspondant.
+### Méthode de validation
 
-## 5. Modale : scénarios dédiés
+Les résultats proviennent de tests manuels réalisés
+dans le navigateur pendant le développement.
 
-La maquette comporte deux dispositions :
+Les cas particuliers ont notamment été vérifiés avec :
 
-- **ordinateur** : informations à gauche, affiche à droite, bouton rouge « Fermer » en bas ;
-- **mobile et tablette** : éléments en colonne, croix visible ; une règle CSS volontairement commentée permet d'afficher aussi le bouton « Fermer ».
+- **Hopeful Notes** : affiche indisponible et recettes absentes.
+- **Schindler's List** : chargement des détails depuis la catégorie dynamique.
+- **Biography et Adult** : passage de six à deux films, puis retour à six.
+- **Mode Offline de Brave** : simulation d'une panne réseau et vérification du rétablissement.
 
-La classe `.modal.is-open` rend actuellement la fenêtre visible pour le contrôle de l'apparence. **Cette simulation DevTools ne prouve ni l'ouverture au clic ni la fermeture fonctionnelle**.
+Ces résultats ne constituent pas une suite de tests automatisés.
 
-À tester ultérieurement : chargement d'un film réel ; résumé long ; métadonnées manquantes ; hauteur dépassant l'écran ; fermeture par les contrôles HTML ; stabilité du rendu lors du redimensionnement. Le comportement au clavier et la gestion du focus doivent être étudiés pour une modale accessible ; ils ne sont pas encore implémentés.
 
-## 6. Validation W3C — à réaliser
+## 5. Fenêtres modales : tests et accessibilité
 
-### HTML
+### 5.1. Modale de détail des films
 
-Validateur : [Nu HTML Checker](https://validator.w3.org/nu/).
+La fenêtre `#movie-modal` affiche les informations détaillées
+du film sélectionné, récupérées depuis OCMovies-API.
 
-Points de contrôle :
+**Informations affichées :**
 
-- structure HTML5, hiérarchie des titres, balises sémantiques ;
-- identifiants uniques, associations `label` / `select` ;
-- attributs d'image, boutons et modale ;
-- absence d'erreurs signalées par le validateur.
+- Titre et affiche du film.
+- Date de sortie et genres.
+- Classification, durée et pays d'origine.
+- Score IMDb et recettes au box-office.
+- Réalisateurs et acteurs.
+- Résumé détaillé.
 
-**Résultat actuel : non testé / non consigné.** Ne pas écrire « HTML valide W3C » avant d'avoir obtenu un résultat.
+**Tests réalisés :**
 
-### CSS
+- Ouverture depuis le meilleur film et les cartes des catégories.
+- Vérification des informations de plusieurs films.
+- Remplacement des affiches indisponibles par une image locale.
+- Affichage « Non disponible » lorsque les recettes sont absentes.
+- Défilement vertical de la modale sur mobile.
+- Fermeture avec le bouton « Fermer », la croix ou la touche Échap.
 
-Validateur : [W3C CSS Validation Service](https://jigsaw.w3.org/css-validator/).
+### 5.2. Accessibilité de la modale
 
-Points de contrôle :
+La modale utilise les attributs `role="dialog"`,
+`aria-modal="true"` et `aria-labelledby`.
 
-- syntaxe et propriétés CSS ;
-- media queries mobile first ;
-- règles de grille, flexbox et variables personnalisées ;
-- avertissements éventuels à interpréter.
+Les tests manuels au clavier ont confirmé :
 
-**Résultat actuel : non testé / non consigné.** L'absence d'avertissements WebStorm n'est pas une validation W3C.
+- L'ouverture avec la touche Entrée.
+- Le déplacement du focus dans la modale à son ouverture.
+- Le maintien du focus dans la modale avec Tab et Shift + Tab.
+- La fermeture avec la touche Échap.
+- Le retour du focus sur le bouton « Détails » d'origine.
+- La possibilité de rouvrir la même modale avec Entrée.
 
-### Après chaque validation
+### 5.3. Modale d'erreur API
 
-Conserver la date, l'outil utilisé, l'objet testé (fichier, code collé ou URL), les erreurs/avertissements et les corrections éventuelles. Une page `file://` n'est pas forcément récupérable par un validateur en ligne : utiliser la soumission de fichier ou de code lorsqu'elle est disponible.
+La fenêtre `#api-error-dialog` utilise l'élément HTML natif
+`<dialog>` et la méthode JavaScript `showModal()`.
 
-## 7. Vérification multi-navigateurs — à réaliser
+Elle est commune aux erreurs de chargement des catégories
+et aux erreurs de récupération des détails des films.
 
-Prévoir les mêmes parcours sur des navigateurs représentatifs :
+**Tests réalisés :**
 
-| Navigateur | Rendu responsive | Modale et interactions | Console JS |
-| --- | --- | --- | --- |
-| Brave (Chromium) | Contrôles CSS manuels déjà réalisés | Modale CSS simulée ; JS non développé | À tester après S5–S8 |
-| Firefox | À tester | À tester | À tester |
-| Safari (macOS) | À tester | À tester | À tester |
+- Simulation d'une panne réseau avec le mode Offline de Brave.
+- Affichage du message « Chargement impossible ».
+- Fermeture avec le bouton « Fermer » et la touche Échap.
+- Masquage des anciennes cartes après l'échec d'un changement de genre.
+- Reprise du chargement après rétablissement de la connexion,
+  sans actualisation de la page.
 
-La demande OpenClassrooms concerne les principaux navigateurs. Cette liste est un **plan de tests**, sans affirmation sur leur classement actuel en part de marché.
+### 5.4. Limites
+
+La validation de l'accessibilité repose sur des tests manuels
+au clavier. Aucun audit complet avec lecteur d'écran ou outil
+automatisé d'accessibilité n'a été réalisé.
+
+
+## 6. Validation W3C — Résultats
+
+Les fichiers HTML et CSS ont été contrôlés le 22 octobre 2026
+à l'aide des validateurs officiels du W3C.
+
+### 6.1. Validation HTML
+
+**Outil :** [Nu Html Checker](https://validator.w3.org/nu/)
+
+**Fichier contrôlé :** `index.html`
+
+| Contrôle | Résultat |
+| --- | --- |
+| Erreurs | 0 |
+| Avertissements | 0 |
+| Validation | Réussie |
+
+Le fichier a été revalidé après l'ajout des attributs ARIA,
+de la fenêtre modale d'erreur et du composant HTML `<dialog>`.
+
+### 6.2. Validation CSS
+
+**Outil :** [W3C CSS Validation Service](https://jigsaw.w3.org/css-validator/)
+
+**Fichier contrôlé :** `assets/css/style.css`
+
+**Profil :** CSS niveau 3 + SVG
+
+| Contrôle | Résultat |
+| --- | --- |
+| Erreurs | 0 |
+| Avertissements | 7 |
+| Validation | Réussie |
+
+Les sept avertissements sont informatifs :
+
+- Un avertissement indique que le validateur ne vérifie
+  pas la feuille Google Fonts importée.
+- Six avertissements concernent les variables CSS `var()`,
+  dont les valeurs ne peuvent pas être entièrement
+  évaluées statiquement.
+
+### 6.3. Correction effectuée
+
+La propriété CSS déconseillée :
+
+`clip: rect(0, 0, 0, 0);`
+
+a été remplacée par :
+
+`clip-path: inset(50%);`
+
+Cette modification a supprimé l'avertissement correspondant.
+
+### 6.4. Limites des validations
+
+Les contrôles ont été réalisés par téléchargement des fichiers
+dans les validateurs W3C.
+
+Ces validations vérifient la conformité du code HTML et CSS
+aux règles analysées par les outils. Elles ne garantissent pas,
+à elles seules, l'accessibilité complète ni le fonctionnement
+de toutes les interactions JavaScript.
+
+
+## 7. Vérification multi-navigateurs
+
+Les tests de compatibilité ont été effectués manuellement
+le 22 octobre 2026 sur macOS.
+
+### 7.1. Navigateurs testés
+
+| Navigateur | Moteur de rendu | Résultat |
+| --- | --- | --- |
+| Brave | Chromium (Blink) | Fonctionnel |
+| Google Chrome | Chromium (Blink) | Fonctionnel |
+| Safari | WebKit | Fonctionnel |
+| Firefox | Gecko | Non testé |
+
+### 7.2. Fonctionnalités vérifiées
+
+Les parcours fonctionnels ont été confirmés dans Brave,
+Safari et Google Chrome.
+
+Ils comprennent notamment :
+
+- Le chargement des films depuis OCMovies-API.
+- L'affichage des sections et des affiches.
+- La sélection d'une catégorie dynamique.
+- L'ouverture et la fermeture des détails d'un film.
+
+Des vérifications complémentaires ont été réalisées dans Brave :
+
+- Affichage responsive sur mobile, tablette et ordinateur.
+- Fonctionnement des boutons Voir plus / Voir moins.
+- Navigation au clavier dans la modale.
+- Simulation d'une connexion réseau lente.
+- Simulation d'une panne réseau avec le mode Offline.
+- Rétablissement de la connexion sans rechargement.
+
+### 7.3. Résultats
+
+Aucune anomalie fonctionnelle bloquante n'a été signalée
+pendant les parcours réalisés sur les trois navigateurs.
+
+Dans Brave, aucune exception JavaScript non gérée
+n'a été observée lors du contrôle du chargement initial.
+
+Certaines affiches distantes provoquent des réponses HTTP 404.
+Le mécanisme de remplacement par une affiche locale fonctionne.
+
+### 7.4. Limites
+
+Les tests ont été réalisés manuellement et ne constituent
+pas une campagne automatisée de compatibilité.
+
+Les contrôles responsive approfondis et les simulations
+de panne réseau ont été effectués dans Brave.
+
+Firefox n'a pas encore été testé.
+
 
 ## 8. Qualité, contenu et livraison
 
-Avant remise du projet :
+### 8.1. Contrôles réalisés
 
-- [ ] Résultats API de liste/détail/genres vérifiés, tri et pagination documentés ;
-- [ ] Tous les éléments dynamiques alimentés par les vraies données de l'API ;
-- [ ] Six films disponibles par liste, avec états 2/4/6 et Voir plus/Voir moins ;
-- [ ] Modale utilisable et fermable avec les données de détail du film choisi ;
-- [ ] Affichage testé sur les trois formats et sur les navigateurs retenus ;
-- [ ] HTML et CSS validés avec les services W3C, erreurs corrigées ;
-- [ ] Absence d'erreurs JavaScript en console pendant les parcours ;
-- [ ] Code source lisible, HTML sémantique, historique Git cohérent ;
-- [ ] README et documentation à jour pour la soutenance.
+- [x] Installation et fonctionnement d'OCMovies-API.
+- [x] Analyse des endpoints, du tri et de la pagination.
+- [x] Chargement dynamique des films et des genres.
+- [x] Affichage responsive des films (2 / 4 / 6).
+- [x] Fonctionnement des boutons Voir plus / Voir moins.
+- [x] Catégorie dynamique avec genre sélectionnable.
+- [x] Gestion des catégories contenant moins de six films.
+- [x] Fenêtre modale affichant les détails des films.
+- [x] Navigation au clavier et gestion du focus dans la modale.
+- [x] Gestion des images indisponibles.
+- [x] Gestion des erreurs API avec une modale dédiée.
+- [x] Protection contre les réponses API obsolètes.
+- [x] Tests manuels sous Brave, Safari et Chrome.
+- [x] Validation HTML W3C sans erreur ni avertissement.
+- [x] Validation CSS W3C sans erreur.
+- [x] Vérification syntaxique JavaScript avec Node.js.
+- [x] Vérification de la mise en forme avec Git.
+- [x] Publication des fonctionnalités sur GitHub.
 
-Ces cases sont **volontairement non cochées** : cette liste porte sur la **livraison finale**, pas seulement sur le CSS déjà réalisé.
+### 8.2. Travaux restant à terminer
 
-## 9. Avancement Jira au 12 octobre 2026
+- [ ] Actualiser l'ensemble des documents du dépôt GitHub.
+- [ ] Finaliser le README et les instructions de lancement.
+- [ ] Revalider le HTML après les derniers déplacements d'éléments.
+- [ ] Compléter l'autoévaluation OpenClassrooms.
+- [ ] Préparer la démonstration et les questions de soutenance.
+- [ ] Effectuer le commit final de documentation.
 
-| Ticket | Statut |
-| --- | --- |
-| [PY06-6 — S4 CSS & Figma](https://fa8i1.atlassian.net/browse/PY06-6) | En cours |
-| [PY06-23 — Styles Figma/CSS global](https://fa8i1.atlassian.net/browse/PY06-23) | Terminé |
-| [PY06-24 — Cartes, sections et modale](https://fa8i1.atlassian.net/browse/PY06-24) | Terminé |
-| [PY06-8 — S6 Responsive](https://fa8i1.atlassian.net/browse/PY06-8) | En cours |
-| [PY06-27 — Implémentation mobile first](https://fa8i1.atlassian.net/browse/PY06-27) | Terminé |
-| [PY06-28 — Tests responsive](https://fa8i1.atlassian.net/browse/PY06-28) | En cours |
-| [PY06-33 — Contrôles qualité finaux](https://fa8i1.atlassian.net/browse/PY06-33) | À faire |
+### 8.3. Vérifications complémentaires recommandées
 
-Ce tableau est un **instantané** : après exécution des tests, mettre à jour la documentation et les tickets avec les résultats observés.
+Ces contrôles ne sont pas considérés comme obligatoirement
+réalisés pour cette livraison :
+
+- Tester le site sous Firefox.
+- Vérifier l'affichage sur un écran très étroit (320 px).
+- Réaliser un audit avec un lecteur d'écran.
+- Ajouter éventuellement des tests automatisés.
+
+### 8.4. État de la livraison
+
+Les principales fonctionnalités de JustStreamIt sont
+implémentées et ont été testées manuellement.
+
+Les contrôles de qualité réalisés n'ont pas révélé
+d'anomalie bloquante.
+
+La préparation de la livraison finale et de la soutenance
+reste en cours dans le cadre du ticket PY06-34.
+
+
+## 9. Avancement Jira au 22 octobre 2026
+
+Les statuts suivants ont été vérifiés directement dans Jira.
+
+### Épics du projet
+
+| Ticket | Étape | Statut |
+| --- | --- | --- |
+| [PY06-5](https://fa8i1.atlassian.net/browse/PY06-5) | S3 — Structure HTML | En cours |
+| [PY06-6](https://fa8i1.atlassian.net/browse/PY06-6) | S4 — CSS et Figma | Terminé |
+| [PY06-8](https://fa8i1.atlassian.net/browse/PY06-8) | S6 — Responsive | En cours |
+| [PY06-11](https://fa8i1.atlassian.net/browse/PY06-11) | S9 — Qualité et soutenance | En cours |
+
+### Tickets de réalisation et de validation
+
+| Ticket | Objet | Statut |
+| --- | --- | --- |
+| [PY06-22](https://fa8i1.atlassian.net/browse/PY06-22) | Structure de la modale et validation HTML | En cours |
+| [PY06-23](https://fa8i1.atlassian.net/browse/PY06-23) | Styles Figma et CSS global | Terminé |
+| [PY06-24](https://fa8i1.atlassian.net/browse/PY06-24) | Cartes, sections et modale CSS | Terminé |
+| [PY06-27](https://fa8i1.atlassian.net/browse/PY06-27) | Implémentation responsive mobile first | Terminé |
+| [PY06-28](https://fa8i1.atlassian.net/browse/PY06-28) | Tests responsive sur trois formats | Terminé |
+| [PY06-33](https://fa8i1.atlassian.net/browse/PY06-33) | Contrôles qualité finaux | Terminé |
+| [PY06-34](https://fa8i1.atlassian.net/browse/PY06-34) | Documentation et soutenance | En cours |
+
+### Points administratifs à finaliser
+
+- Vérifier la clôture du ticket PY06-22.
+- Examiner la clôture des épics S3 et S6.
+- Terminer PY06-34 après les livrables de documentation.
+- Clôturer l'épic S9 après les vérifications finales.
+
+Ces statuts reflètent l'état de Jira à la date indiquée.
+Ils sont distincts de la validation technique du code.
 
 ## 10. Sources
 
