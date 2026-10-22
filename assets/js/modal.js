@@ -5,6 +5,14 @@
 
 
 /**
+ * Mémorise le bouton ayant ouvert la fenêtre modale.
+ *
+ * @type {HTMLButtonElement|null}
+ */
+let lastMovieModalTrigger = null;
+
+
+/**
  * Ouvre la fenêtre modale contenant les détails d'un film.
  *
  * Ajoute la classe CSS "is-open" pour rendre la modale visible.
@@ -17,6 +25,15 @@ function openMovieModal() {
 
     // Ajoute la classe CSS permettant d'afficher la modale.
     modal.classList.add("is-open");
+
+
+    // Autorise le focus programmatique sur la fenêtre modale.
+    // La valeur -1 évite de l'ajouter à la navigation Tab.
+    modal.setAttribute("tabindex", "-1");
+
+    // Place le focus dans la modale dès son ouverture.
+    modal.focus();
+
 }
 
 
@@ -33,14 +50,26 @@ function closeMovieModal() {
 
     // Retire la classe CSS qui rend la fenêtre visible.
     modal.classList.remove("is-open");
+
+
+    // Redonne le focus au bouton qui a ouvert la modale.
+    if (lastMovieModalTrigger && lastMovieModalTrigger.isConnected) {
+        lastMovieModalTrigger.focus();
+    }
+
+    // Réinitialise la référence pour la prochaine ouverture.
+    lastMovieModalTrigger = null;
+
 }
 
 
+
 /**
- * Initialise les boutons de fermeture de la fenêtre modale.
+ * Initialise les moyens de fermeture de la fenêtre modale.
  *
- * Associe un événement "click" aux deux boutons :
- * la croix sur mobile/tablette et "Fermer" sur ordinateur.
+ * Associe les boutons de fermeture aux événements "click".
+ * Gère également la fermeture avec la touche Échap
+ * et maintient le focus dans la modale avec Tab.
  *
  * @returns {void} Cette fonction ne renvoie aucune valeur.
  */
@@ -54,6 +83,36 @@ function initializeModalCloseButtons() {
     buttons.forEach((button) => {
         button.addEventListener("click", closeMovieModal);
     });
+
+
+    // Sélectionne la fenêtre modale.
+    const modal = document.querySelector("#movie-modal");
+
+    // Écoute les touches du clavier.
+    document.addEventListener("keydown", (event) => {
+        // Ferme la modale si elle est ouverte et que
+        // l'utilisateur appuie sur la touche Échap.
+        if (event.key === "Escape" && modal.classList.contains("is-open")) {
+            closeMovieModal();
+        }
+
+        // Empêche la navigation Tab de sortir de la modale.
+        if (event.key === "Tab" && modal.classList.contains("is-open")) {
+
+            // Recherche le bouton de fermeture actuellement visible.
+            const visibleButton = Array.from(buttons).find(
+                (button) => button.getClientRects().length > 0
+            );
+
+            // Maintient le focus sur ce bouton.
+            if (visibleButton) {
+                event.preventDefault();
+                visibleButton.focus();
+            }
+        }
+
+    });
+
 }
 
 
@@ -100,6 +159,15 @@ function initializeMovieModalTriggers() {
 
             // Remplace les informations temporaires de la modale.
             displayMovieDetails(film);
+
+
+            // Mémorise le bouton ayant déclenché l'ouverture.
+            // Pour une carte, "trigger" désigne l'article entier :
+            // nous récupérons donc son bouton "Détails".
+            lastMovieModalTrigger = trigger.matches(".movie-card")
+                ? trigger.querySelector(".button")
+                : trigger;
+
 
             // Ouvre la modale une fois les données chargées.
             openMovieModal();

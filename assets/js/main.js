@@ -39,10 +39,6 @@ async function initializeApp() {
         // Récupère les 7 films les mieux notés depuis OCMovies-API.
         const data = await getTopMovies();
 
-        // Vérification temporaire des données dans la console.
-        console.log("Initialisation JustStreamIt :", data.results.length, "films récupérés");
-
-
         // Sélectionne le premier film du classement IMDb.
         const bestMovie = data.results[0];
 

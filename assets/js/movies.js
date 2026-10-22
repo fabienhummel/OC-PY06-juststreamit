@@ -202,8 +202,6 @@ function initializeGenreSelector() {
     const select = document.querySelector("#genre-select");
 
     // Réagit lorsque l'utilisateur sélectionne un autre genre.
-
-    // Réagit lorsque l'utilisateur sélectionne un autre genre.
     select.addEventListener("change", async (event) => {
         // Récupère le genre sélectionné.
         const genre = event.target.value;
