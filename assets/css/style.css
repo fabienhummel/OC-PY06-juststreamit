@@ -481,6 +481,25 @@ main > section + section {
 
 
 /* =========================================================
+   VISIBILITÉ DES FILMS — S7
+   ========================================================= */
+
+/* Mobile : masque les films à partir du troisième. */
+@media (max-width: 767px) {
+    .movie-grid:not(.is-expanded) > .movie-card:nth-child(n + 3) {
+        display: none;
+    }
+}
+
+/* Tablette : masque les films à partir du cinquième. */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .movie-grid:not(.is-expanded) > .movie-card:nth-child(n + 5) {
+        display: none;
+    }
+}
+
+
+/* =========================================================
    MODULE : BOUTONS
    ========================================================= */
 

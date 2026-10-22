@@ -13,6 +13,13 @@
  * @returns {Promise<void>} Promesse résolue à la fin de l'initialisation.
  */
 async function initializeApp() {
+
+
+    // Initialise les boutons "Voir plus / Voir moins".
+    // Cette fonctionnalité ne dépend pas des requêtes à l'API.
+    initializeMovieToggles();
+
+
     try {
         // Récupère les 7 films les mieux notés depuis OCMovies-API.
         const data = await getTopMovies();

@@ -131,3 +131,38 @@ function displayGenres(genres) {
     });
 }
 
+
+/**
+ * Initialise les boutons "Voir plus / Voir moins" des sections de films.
+ *
+ * Permet d'afficher ou de masquer les films supplémentaires
+ * en ajoutant ou retirant une classe CSS sur chaque grille.
+ *
+ * @returns {void} Cette fonction ne renvoie aucune valeur.
+ */
+function initializeMovieToggles() {
+    // Récupère tous les boutons "Voir plus" de la page.
+    const buttons = document.querySelectorAll(".toggle-movies-button");
+
+    // Parcourt chaque bouton pour lui associer un événement.
+    buttons.forEach((button) => {
+        // Identifie la section et la grille associées au bouton.
+        const section = button.closest("section");
+        const grid = section.querySelector(".movie-grid");
+
+        // Initialise l'état du bouton pour l'accessibilité.
+        button.setAttribute("aria-expanded", "false");
+
+        // Réagit au clic de l'utilisateur.
+        button.addEventListener("click", () => {
+            // Ajoute ou retire la classe CSS "is-expanded".
+            const isExpanded = grid.classList.toggle("is-expanded");
+
+            // Adapte le texte du bouton à son nouvel état.
+            button.textContent = isExpanded ? "Voir moins" : "Voir plus";
+
+            // Informe les technologies d'assistance de l'état actuel.
+            button.setAttribute("aria-expanded", String(isExpanded));
+        });
+    });
+}
