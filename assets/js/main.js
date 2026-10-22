@@ -20,6 +20,16 @@ async function initializeApp() {
     initializeMovieToggles();
 
 
+    // Initialise les boutons de fermeture de la fenêtre modale.
+    // Cette fonctionnalité ne dépend pas des requêtes à l'API.
+    initializeModalCloseButtons();
+
+
+    // Initialise les clics sur les films pour ouvrir leur modale.
+    // Un seul écouteur gère les cartes et le meilleur film.
+    initializeMovieModalTriggers();
+
+
     try {
         // Récupère les 7 films les mieux notés depuis OCMovies-API.
         const data = await getTopMovies();

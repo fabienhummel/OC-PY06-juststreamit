@@ -46,6 +46,13 @@ function displayBestMovie(film) {
     // Sélectionne la section HTML dédiée au meilleur film.
     const section = document.querySelector("#best-movie");
 
+
+    // Mémorise l'identifiant du meilleur film dans son élément HTML.
+    // Il permettra d'ouvrir la modale correspondant à ce film.
+    const featuredMovie = section.querySelector(".featured-movie");
+    featuredMovie.dataset.movieId = film.id;
+
+
     // Récupère les éléments HTML à mettre à jour.
     const title = section.querySelector(".featured-movie-title");
     const summary = section.querySelector(".featured-movie-summary");
