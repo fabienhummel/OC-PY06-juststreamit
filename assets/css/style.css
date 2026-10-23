@@ -76,6 +76,22 @@ button, select {
     font-family: inherit;
 }
 
+/* Espacements verticaux — tablette */
+@media (min-width: 768px) {
+    body {
+        padding-top: 24px;
+        padding-bottom: 40px;
+    }
+}
+
+/* Espacements verticaux — ordinateur */
+@media (min-width: 1024px) {
+    body {
+        padding-top: 32px;
+        padding-bottom: 48px;
+    }
+}
+
 
 /* =========================================================
    MODULE : HEADER
