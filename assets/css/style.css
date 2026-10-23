@@ -56,10 +56,15 @@
 
 body {
     margin: 0;
+    padding-top: 16px;
+    padding-bottom: 32px;
     font-family: var(--font-main), sans-serif;
     color: var(--color-text);
     background-color: var(--color-white);
 }
+
+
+
 
 img {
     display: block;
