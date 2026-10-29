@@ -1,4 +1,3 @@
-
 /*
  * OC-PY06 — JustStreamIt
  * Fonctions d'accès à OCMovies-API.
@@ -51,34 +50,35 @@ function getGenres() {
 
 
 /**
- * Récupère les 7 films les mieux notés selon IMDb.
+ * Récupère les films les mieux notés selon IMDb.
  *
- * Le premier film sera utilisé pour la section "Meilleur film".
- * Les 6 suivants alimenteront la section "Films les mieux notés".
+ * Le premier film servira au bloc "Meilleur film".
  *
+ * @param {number} pageSize - Nombre de films à récupérer.
  * @returns {Promise<Object>} La réponse JSON contenant les films.
  */
-function getTopMovies() {
+function getTopMovies(pageSize = 7) {
     // Trie les films par score IMDb décroissant (-imdb_score).
-    // Limite la réponse à 7 films grâce au paramètre page_size.
-    return fetchApi("titles/?sort_by=-imdb_score&page_size=7");
+    // Limite les résultats au nombre demandé.
+    return fetchApi(`titles/?sort_by=-imdb_score&page_size=${pageSize}`);
 }
 
 
 /**
- * Récupère les 6 films les mieux notés d'un genre donné.
+ * Récupère les films les mieux notés d'un genre donné.
  *
- * @param {string} genre - Nom du genre recherché (exemple : "Action").
+ * @param {string} genre - Nom du genre recherché, par exemple "Action".
+ * @param {number} pageSize - Nombre de films à récupérer.
  * @returns {Promise<Object>} La réponse JSON contenant les films.
  */
-function getMoviesByGenre(genre) {
+function getMoviesByGenre(genre, pageSize = 6) {
     // Encode le nom du genre pour l'utiliser dans une URL.
     const encodedGenre = encodeURIComponent(genre);
 
     // Filtre les films par genre et les trie par score IMDb décroissant.
-    // Limite le nombre de résultats à 6 films.
+    // Limite les résultats au nombre demandé.
     return fetchApi(
-        `titles/?genre=${encodedGenre}&sort_by=-imdb_score&page_size=6`
+        `titles/?genre=${encodedGenre}&sort_by=-imdb_score&page_size=${pageSize}`
     );
 }
 

@@ -1,5 +1,7 @@
 /*
  * OC-PY06 — JustStreamIt
+ * Fichier : modal.js
+ *
  * Gestion de la fenêtre modale des détails d'un film.
  */
 
@@ -131,7 +133,7 @@ function initializeMovieModalTriggers() {
     let latestRequestId = 0;
 
     // Écoute les clics sur les éléments contenus dans main.
-    main.addEventListener("click", async(event) => {
+    main.addEventListener("click", async (event) => {
         // Recherche une carte de film ou le bouton du meilleur film.
         const trigger = event.target.closest(
             ".movie-card, #best-movie .featured-movie .button"
@@ -197,14 +199,8 @@ function initializeMovieModalTriggers() {
                 error.message
             );
 
-            // Sélectionne la fenêtre de dialogue commune aux erreurs API.
-            const apiErrorDialog = document.querySelector("#api-error-dialog");
-
-            // Signale l'échec du chargement à l'utilisateur.
-            // Évite de rouvrir une fenêtre déjà affichée.
-            if (!apiErrorDialog.open) {
-                apiErrorDialog.showModal();
-            }
+            // Affiche la même fenêtre d'erreur que le sélecteur de genres.
+            showApiError();
 
         }
 
