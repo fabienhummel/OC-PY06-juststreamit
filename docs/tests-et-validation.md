@@ -407,3 +407,30 @@ Ils sont distincts de la validation technique du code.
 - [Confluence — Autoévaluation OpenClassrooms](https://fa8i1.atlassian.net/wiki/spaces/OCPY06/pages/31621141).
 - [Analyse de la maquette Figma](analyse-detaillee-maquette-figma.md).
 - [Cahier des charges et étapes du projet OpenClassrooms](https://openclassrooms.com/fr/paths/879/projects/835).
+
+## 9. Refonte JavaScript : campagne de tests complémentaire du 29 octobre 2026
+
+**Version testée :** branche `feature/dynamic-movie-cards`, commit [`5279169`](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/5279169b779112fc517850597be327da1408f914), fusionné dans `main` via [PR #1](https://github.com/fabienhummel/OC-PY06-juststreamit/pull/1) (commit `2725bc0`). Les tests du 22 octobre ci-dessus demeurent l'historique de la version antérieure.
+
+### Scénarios manuels communiqués et validés
+
+| N° | Vérification | Résultat |
+| --- | --- | --- |
+| 1 | Chargement initial des quatre sections avec six films | Validé dans Brave |
+| 2 | Passage temporaire de `MOVIES_PER_SECTION = 6` à `9` et affichage des neuf cartes | Validé |
+| 3 | Catégorie « Autres » : genre Adult, seulement les cartes réellement retournées, sans cartes temporaires ni bouton superflu | Validé |
+| 4 | Modale « Détails » d'une carte recréée, fermeture par Échap et retour du focus | Validé |
+| 5 | Mobile à 456 px : deux cartes au départ, neuf avec « Voir plus », deux avec « Voir moins » | Validé |
+| 6 | Tablette à 788 px : quatre cartes au départ, neuf sur deux colonnes avec « Voir plus », retour à quatre | Validé |
+| 7 | API arrêtée : changement de genre, dialogue d'erreur et suppression des cartes obsolètes | Validé |
+| 8 | API relancée : nouvelle sélection Comedy et réapparition des cartes sans recharger la page | Validé |
+| 9 | API arrêtée : clic « Détails », dialogue d'erreur sans ouverture de la modale de film | Validé |
+
+### Contrôles techniques
+
+- Les **dix fichiers JavaScript** ont été vérifiés par `for file in assets/js/*.js; do node --check "$file" || break; done` : **aucune sortie**, donc aucune erreur de syntaxe détectée.
+- La valeur `MOVIES_PER_SECTION` a ensuite été rétablie à **6** ; `git status --short` était vide.
+- `index.html` et `assets/css/style.css` sont restés **inchangés** lors de la refonte ; la création des cartes intervient uniquement dans le DOM via JavaScript.
+- La version antérieure de `main` est conservée dans [la branche de sauvegarde](https://github.com/fabienhummel/OC-PY06-juststreamit/tree/backup/main-before-dynamic-cards-2026-10-29), commit `4e3ba66`.
+
+**Portée :** ces validations ont été communiquées par le développeur après tests manuels dans Brave. Aucune nouvelle validation W3C (HTML/CSS inchangés), aucune nouvelle campagne Firefox/Safari/Chrome et aucune suite automatisée de tests fonctionnels ne sont revendiquées pour la refonte.

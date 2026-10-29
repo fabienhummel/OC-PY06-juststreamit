@@ -20,9 +20,10 @@ L'interface propose :
 - une section **Films les mieux notés** ;
 - deux catégories de films fixes ;
 - une catégorie dynamique choisie par l'utilisateur ;
-- jusqu'à six films par section, selon les résultats de l'API ;
+- **six films par section par défaut**, avec création dynamique des cartes et nombre de films configurable dans `sections.js` ;
 - un comportement responsive avec **Voir plus / Voir moins** ;
-- une fenêtre modale affichant les informations détaillées d'un film.
+- une fenêtre modale affichant les informations détaillées d'un film ;
+- une modale commune aux erreurs de chargement des données de l'API.
 
 ## Contraintes techniques
 
@@ -34,7 +35,9 @@ Le projet est réalisé avec :
 - l'API native **Fetch** ;
 - **OCMovies-API** exécutée localement.
 
-Le projet n'utilise pas de framework JavaScript. Le site a fait l'objet de contrôles manuels de fonctionnement, de responsive et de validation W3C, dont les résultats et limites sont documentés.
+Le projet n'utilise pas de framework JavaScript. Les cartes des sections sont générées par JavaScript, sans modification nécessaire de `index.html` ou de `style.css` pour changer le nombre demandé. Les tests manuels et validations sont consignés dans [Tests et validation](docs/tests-et-validation.md).
+
+**Architecture JavaScript (29 octobre 2026) :** les quatre scripts historiques sont référencés depuis `index.html` avec `defer`. `main.js` charge les six scripts spécialisés supplémentaires dans l'ordre, sans modules ES, via la création de balises `script` en JavaScript. `sections.js` parcourt les catégories et `cards.js` crée une carte par film avec `createMovieCard(film)`. La catégorie « Autres » utilise ce même rendu. Le nombre demandé est contrôlé par `MOVIES_PER_SECTION = 6` dans `sections.js` ; une vérification à **9 cartes** a été effectuée.
 
 ## API OCMovies
 
@@ -73,9 +76,15 @@ OC-PY06-juststreamit/
 │   │   └── movie_poster.png
 │   └── js/
 │       ├── api.js
+│       ├── best-movie.js
+│       ├── cards.js
+│       ├── error-modal.js
+│       ├── genre-selector.js
 │       ├── main.js
 │       ├── modal.js
-│       └── movies.js
+│       ├── movies.js
+│       ├── sections.js
+│       └── toggles.js
 ├── docs/
 │   ├── .gitkeep
 │   ├── analyse-api-ocmovies.md
@@ -105,7 +114,7 @@ OC-PY06-juststreamit/
 | S8 | Catégorie dynamique | Terminé |
 | S9 | Validation, documentation et préparation de la soutenance | En cours |
 
-_Statuts Jira revérifiés le 22 octobre 2026, après la clôture de S3, S6 et PY06-22._
+_Les statuts historiques ont été vérifiés le 22 octobre 2026 ; la refonte JavaScript a été fusionnée le 29 octobre 2026. S9 (documentation et soutenance) reste en cours._
 
 
 
@@ -119,7 +128,7 @@ _Statuts Jira revérifiés le 22 octobre 2026, après la clôture de S3, S6 et P
 
 - **S4 — CSS et maquettes :** la présentation respecte les principes des maquettes Figma. La feuille CSS a passé la validation W3C sans erreur.
 
-- **S5 — JavaScript et API :** les films et les genres sont chargés dynamiquement avec `fetch()`. Le code est organisé en plusieurs fichiers selon leurs responsabilités.
+- **S5 — JavaScript et API :** les films et les genres sont chargés avec `fetch()`. Après la refonte du 29 octobre 2026, le code JavaScript est réparti en **10 fichiers spécialisés** ; les cartes sont créées dynamiquement par une fonction commune. [Voir le commit de refonte](https://github.com/fabienhummel/OC-PY06-juststreamit/commit/5279169b779112fc517850597be327da1408f914).
 
 - **S6 — Responsive :** les mises en page mobile, tablette et ordinateur sont implémentées et testées. L'épic Jira est clôturé ([PY06-8](https://fa8i1.atlassian.net/browse/PY06-8)).
 
@@ -129,7 +138,13 @@ _Statuts Jira revérifiés le 22 octobre 2026, après la clôture de S3, S6 et P
 
 - **S9 — Qualité et soutenance :** les validations HTML et CSS W3C, les tests JavaScript, les tests de navigation au clavier et les contrôles sur Brave, Safari et Chrome ont été réalisés. La documentation finale et la préparation de la soutenance sont en cours.
 
-Les résultats des contrôles et les limites des tests figurent dans [Tests et validation](docs/tests-et-validation.md) et dans Confluence. La préparation de la soutenance se poursuit dans [PY06-34](https://fa8i1.atlassian.net/browse/PY06-34).
+Les résultats des contrôles et les limites des tests figurent dans [Tests et validation](docs/tests-et-validation.md) et dans Confluence.
+
+### Historique Git de la refonte
+
+- [Branche de sauvegarde — version avant refonte](https://github.com/fabienhummel/OC-PY06-juststreamit/tree/backup/main-before-dynamic-cards-2026-10-29) : commit `4e3ba66`.
+- [Branche de développement](https://github.com/fabienhummel/OC-PY06-juststreamit/tree/feature/dynamic-movie-cards) : commit `5279169`.
+- [Pull request #1 fusionnée](https://github.com/fabienhummel/OC-PY06-juststreamit/pull/1) : commit de fusion `2725bc0` sur `main`. La préparation de la soutenance se poursuit dans [PY06-34](https://fa8i1.atlassian.net/browse/PY06-34).
 
 
 ## Environnement de développement
